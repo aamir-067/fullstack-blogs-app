@@ -5,9 +5,9 @@ const HomePage = () => {
 
 
     return (
-        <View className=" mx-2">
+        <View className="mx-2">
             <ScrollView showsVerticalScrollIndicator={false}>
-                <Text style={styles.welcomeHeading}>Welcome, 👋</Text>
+                <Text className="mt-12" style={styles.welcomeHeading}>Welcome, 👋</Text>
 
                 <ScrollView horizontal showsHorizontalScrollIndicator={false} className="mt-4 py-4">
                     <Text style={styles.categoryBtn}>Latest</Text>
