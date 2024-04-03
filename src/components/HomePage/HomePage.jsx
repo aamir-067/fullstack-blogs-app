@@ -1,34 +1,8 @@
 import { Button, ScrollView, StyleSheet, Text, View, Image } from 'react-native'
-import React, { useEffect } from 'react'
-import { useFonts } from "expo-font";
-import * as SplashScreen from 'expo-splash-screen';
+import React from 'react'
 import ArticleCard from '../ArticleCard/ArticleCard';
 const HomePage = () => {
-    const [loaded, error] = useFonts({
-        "rufina-regular": require("../../assets/fonts/Rufina-Regular.ttf"),
-        "rufina-bold": require("../../assets/fonts/Rufina-Bold.ttf"),
-        "montserrat-normal": require("../../assets/fonts/Montserrat-normal.ttf"),
-        "montserrat-bold": require("../../assets/fonts/Montserrat-Bold.ttf"),
-        "montserrat-extrabold": require("../../assets/fonts/Montserrat-ExtraBold.ttf"),
-        "montserrat-light": require("../../assets/fonts/Montserrat-Light.ttf"),
-        "montserrat-medium": require("../../assets/fonts/Montserrat-Medium.ttf"),
-        "montserrat-regular": require("../../assets/fonts/Montserrat-Regular.ttf"),
-        "montserrat-semibold": require("../../assets/fonts/Montserrat-SemiBold.ttf")
-    })
 
-    useEffect(() => {
-        if (error) throw error;
-    }, [error]);
-
-    useEffect(() => {
-        if (loaded) {
-            SplashScreen.hideAsync();
-        }
-    }, [loaded]);
-
-    if (!loaded) {
-        return null;
-    }
 
     return (
         <View className=" mx-2">
