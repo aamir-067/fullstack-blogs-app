@@ -1,12 +1,22 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import { HomePage } from "./src/components/index.js";
+import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { HomePage, ArticlePreview } from "./src/components/index.js";
+import Footer from './src/components/Footer/Footer.jsx';
 export default function App() {
+
   return (
-    <View>
+    <SafeAreaView className="">
       <StatusBar style="auto" />
-      <HomePage />
-    </View>
+
+
+      <View className="pt-10" style={{ height: "93%" }}>
+        {/* <HomePage /> */}
+        <ArticlePreview />
+      </View>
+
+      <Footer />
+
+    </SafeAreaView>
   );
 }
 
