@@ -1,9 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
-import { HomePage, ArticlePreview, Footer } from "../components/index.js";
+import { Footer, HomePage } from "../components/index.js";
 import { useFonts } from "expo-font";
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
+import { Slot } from 'expo-router';
 export default function App() {
   const [loaded, error] = useFonts({
     "rufina-regular": require("../assets/fonts/Rufina-Regular.ttf"),
@@ -33,13 +34,11 @@ export default function App() {
 
   return (
     <View className="">
-      <StatusBar style="auto" />
 
       <View className="" style={{ height: "93%" }}>
         {/* <HomePage /> */}
-        <ArticlePreview />
+        <Slot />
       </View>
-
       <Footer />
 
     </View>

@@ -1,6 +1,6 @@
 import { Button, ScrollView, StyleSheet, Text, View, Image } from 'react-native'
 import React from 'react'
-import ArticleCard from '../ArticleCard/ArticleCard';
+import ArticleCard from '../components/ArticleCard/ArticleCard';
 const HomePage = () => {
 
 
