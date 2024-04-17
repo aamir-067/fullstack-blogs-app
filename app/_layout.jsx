@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
-import { Footer, HomePage } from "../components/index.js";
+import Footer from "../components/Footer/Footer";
 import { useFonts } from "expo-font";
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
@@ -36,7 +36,6 @@ export default function App() {
     <View className="">
 
       <View className="" style={{ height: "93%" }}>
-        {/* <HomePage /> */}
         <Slot />
       </View>
       <Footer />

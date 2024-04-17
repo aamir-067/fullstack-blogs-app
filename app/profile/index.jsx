@@ -14,7 +14,7 @@ const Profile = () => {
 
             {/* content */}
             <View className="px-2 z-10 w-full h-full absolute">
-                <ScrollView>
+                <ScrollView showsVerticalScrollIndicator={false}>
 
                     {/* nav btns */}
                     <View className="flex flex-row justify-between mt-10">
