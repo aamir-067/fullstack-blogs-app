@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View, TextInput, ScrollView, Image } from 'react-native'
 import React from 'react'
+import { Input, Stack } from "native-base";
 
 const login = () => {
     return (
@@ -31,10 +32,10 @@ const login = () => {
                         Login To Account
                     </Text>
 
-                    <View className="w-full bg-green-300 flex justify-between h-40">
-                        <TextInput className="w-full h-12 bg-red-300" placeholder='mail' />
-                        <TextInput className="w-full h-12 bg-red-300" placeholder='pass' secureTextEntry={true} />
+                    <View className="mb-4">
+                        <Input size="md" placeholder="email" />
                     </View>
+                    <Input size="md" placeholder="password" type='password' />
                 </View>
             </View>
         </ScrollView>
