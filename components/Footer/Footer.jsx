@@ -14,7 +14,7 @@ const Footer = () => {
                     <Text className="text-xs mt-1 text-white" style={{ fontFamily: "montserrat-medium" }}>Home</Text>
                 </View>
             </Link>
-            <Link href="/auth/login">
+            <Link href="/user/login">
                 <View className="w-11 aspect-square flex items-center justify-center">
                     <View className="w-6 aspect-square bg-white rounded-full"></View>
                     <Text className="text-xs mt-1 text-white" style={{ fontFamily: "montserrat-medium" }}>Blogs</Text>

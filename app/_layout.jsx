@@ -4,6 +4,7 @@ import Footer from "../components/Footer/Footer";
 import { useFonts } from "expo-font";
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
+import { NativeBaseProvider } from "native-base";
 import { Slot } from 'expo-router';
 export default function App() {
   const [loaded, error] = useFonts({
@@ -33,14 +34,17 @@ export default function App() {
   }
 
   return (
-    <View className="">
+    <NativeBaseProvider>
+      <View className="">
 
-      <View className="" style={{ height: "93%" }}>
-        <Slot />
+        <View className="" style={{ height: "93%" }}>
+          <Slot />
+        </View>
+        <Footer />
+
       </View>
-      <Footer />
+    </NativeBaseProvider>
 
-    </View>
   );
 }
 
