@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View, Image, ScrollView } from 'react-native'
 import React from 'react'
-import { router } from 'expo-router'
+import { Link, router } from 'expo-router'
+import { Button } from 'native-base'
 import ArticleCard from '../../components/ArticleCard/ArticleCard'
 const Profile = () => {
     return (
@@ -34,49 +35,66 @@ const Profile = () => {
                         </Text>
                     </View>
 
-                    {/* avatar */}
-                    <View className="h-30 mt-16 flex items-center">
-                        <View className=" border-4 border-white w-28 aspect-square rounded-full overflow-hidden">
-                            <Image className="w-full h-full" source={{ uri: "https://www.shutterstock.com/image-photo/head-shot-portrait-close-smiling-600nw-1714666150.jpg" }} />
-                        </View>
-                    </View>
+                    {/* if logged in */}
+                    {
+                        false && <View>
+                            {/* avatar */}
+                            <View className="h-30 mt-16 flex items-center">
+                                <View className=" border-4 border-white w-28 aspect-square rounded-full overflow-hidden">
+                                    <Image className="w-full h-full" source={{ uri: "https://www.shutterstock.com/image-photo/head-shot-portrait-close-smiling-600nw-1714666150.jpg" }} />
+                                </View>
+                            </View>
 
-                    {/* name and mail */}
-                    <View className="mt-2 flex items-center">
-                        <Text className="text-base" style={{ fontFamily: "montserrat-semibold" }}>Jack Richer</Text>
-                        <Text className="text-xs" style={{ fontFamily: "montserrat-regular" }}>jack.richer067@gmail.com</Text>
-                    </View>
+                            {/* name and mail */}
+                            <View className="mt-2 flex items-center">
+                                <Text className="text-base" style={{ fontFamily: "montserrat-semibold" }}>Jack Richer</Text>
+                                <Text className="text-xs" style={{ fontFamily: "montserrat-regular" }}>jack.richer067@gmail.com</Text>
+                            </View>
 
-                    {/* uploaded articles */}
-                    <Text className="mt-10" style={{ fontFamily: "rufina-regular", fontSize: 24 }}>
-                        Uploaded Blogs
-                    </Text>
+                            {/* uploaded articles */}
+                            <Text className="mt-10" style={{ fontFamily: "rufina-regular", fontSize: 24 }}>
+                                Uploaded Blogs
+                            </Text>
 
-                    {/* line */}
-                    <View className="w-full border-b-2 mt-2 mb-10 border-gray-200"></View>
+                            {/* line */}
+                            <View className="w-full border-b-2 mt-2 mb-10 border-gray-200"></View>
 
 
-                    {/* Articles */}
-                    <View className="flex">
-                        <View className="mb-4">
-                            <ArticleCard />
+                            {/* Articles */}
+                            <View className="flex">
+                                <View className="mb-4">
+                                    <ArticleCard />
+                                </View>
+                                <View className="mb-4">
+                                    <ArticleCard />
+                                </View>
+                                <View className="mb-4">
+                                    <ArticleCard />
+                                </View>
+                                <View className="mb-4">
+                                    <ArticleCard />
+                                </View>
+                                <View className="mb-4">
+                                    <ArticleCard />
+                                </View>
+                            </View>
                         </View>
-                        <View className="mb-4">
-                            <ArticleCard />
-                        </View>
-                        <View className="mb-4">
-                            <ArticleCard />
-                        </View>
-                        <View className="mb-4">
-                            <ArticleCard />
-                        </View>
-                        <View className="mb-4">
-                            <ArticleCard />
-                        </View>
+                    }
+
+                    {/* when its logged out */}
+                    <View className="mt-60">
+                        <Text className="text-center text-lg mb-5" style={{ fontFamily: "montserrat-bold" }}>Don't have an account ?</Text>
+
+                        <Button bgColor={"#C3D8B3"}>
+                            <Link href={"/user/register"}>
+                                <Text className="text-center text-lg" style={{ fontFamily: "montserrat-bold" }}>Get Started</Text>
+                            </Link>
+                        </Button>
                     </View>
                 </ScrollView>
             </View>
         </View >
+
     )
 }
 

@@ -1,31 +1,32 @@
-import { Button, ScrollView, StyleSheet, Text, View, Image } from 'react-native'
+import { Button, ScrollView, StyleSheet, Text, View, Image, Pressable, TouchableOpacity } from 'react-native'
 import React from 'react'
 import ArticleCard from '../components/ArticleCard/ArticleCard';
-import Upload from './article/edit';
+import { Link, router } from 'expo-router';
 const HomePage = () => {
     return (
-        true ? <Upload /> :
-            <View className="mx-2">
-                <ScrollView showsVerticalScrollIndicator={false}>
-                    <Text className="mt-12" style={styles.welcomeHeading}>Welcome, 👋</Text>
+        <View className="mx-2">
+            <ScrollView showsVerticalScrollIndicator={false}>
+                <Text className="mt-12" style={styles.welcomeHeading}>Welcome, 👋</Text>
 
-                    <ScrollView horizontal showsHorizontalScrollIndicator={false} className="mt-4 py-4">
-                        <Text style={styles.categoryBtn}>All</Text>
-                        <Text style={[styles.categoryBtn, styles.selectedCategoryBtn]}>Technology</Text>
-                        <Text style={styles.categoryBtn}>Finance</Text>
-                        <Text style={styles.categoryBtn}>Politics</Text>
-                        <Text style={styles.categoryBtn}>Programming</Text>
-                        <Text style={styles.categoryBtn}>Other</Text>
-                    </ScrollView>
-                    {/* line */}
-                    <View className="w-full border-b-2 border-gray-200"></View>
+                <ScrollView horizontal showsHorizontalScrollIndicator={false} className="mt-4 py-4">
+                    <Text style={styles.categoryBtn}>All</Text>
+                    <Text style={[styles.categoryBtn, styles.selectedCategoryBtn]}>Technology</Text>
+                    <Text style={styles.categoryBtn}>Finance</Text>
+                    <Text style={styles.categoryBtn}>Politics</Text>
+                    <Text style={styles.categoryBtn}>Programming</Text>
+                    <Text style={styles.categoryBtn}>Other</Text>
+                </ScrollView>
+                {/* line */}
+                <View className="w-full border-b-2 border-gray-200"></View>
 
-                    {/* image and the top article */}
-                    <View className="overflow-hidden h-[224px] mt-6 relative" style={styles.topArticle}>
+                {/* image and the top article */}
+
+                <Pressable onPress={() => router.navigate("/article/preview")}>
+                    <View className="w-full aspect-[4/3] mt-6 relative bg-red-400">
                         <Image className="w-full h-full" source={{ uri: "https://plus.unsplash.com/premium_photo-1681492405224-b787ee736768?q=80&w=3270&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" }} />
 
                         {/*Heading and the author of the top article  */}
-                        <View className="z-10 absolute bottom-0 left-0 w-full h-20 px-2">
+                        <View className="absolute bottom-0 left-0 w-full h-20 px-2">
                             <View className=" w-full rounded-md h-9 flex justify-center items-center" style={styles.blogHeading}>
                                 <Text className=" w-full text-left ml-2 text-lg" style={{ fontFamily: "montserrat-regular" }}>How the political parties are effecting....</Text>
                             </View>
@@ -37,34 +38,35 @@ const HomePage = () => {
                             </View>
                         </View>
                     </View>
+                </Pressable>
 
 
-                    {/* Top articles */}
-                    <Text className=" my-4" style={{ fontFamily: "rufina-regular", fontSize: 28 }}>
-                        Latest From Technology
-                    </Text>
+                {/* Top articles */}
+                <Text className=" my-4" style={{ fontFamily: "rufina-regular", fontSize: 28 }}>
+                    Latest From Technology
+                </Text>
 
 
-                    {/* Articles */}
-                    <View className="flex">
-                        <View className="mb-4">
-                            <ArticleCard />
-                        </View>
-                        <View className="mb-4">
-                            <ArticleCard />
-                        </View>
-                        <View className="mb-4">
-                            <ArticleCard />
-                        </View>
-                        <View className="mb-4">
-                            <ArticleCard />
-                        </View>
-                        <View className="mb-4">
-                            <ArticleCard />
-                        </View>
+                {/* Articles */}
+                <View className="flex">
+                    <View className="mb-4">
+                        <ArticleCard />
                     </View>
-                </ScrollView>
-            </View>
+                    <View className="mb-4">
+                        <ArticleCard />
+                    </View>
+                    <View className="mb-4">
+                        <ArticleCard />
+                    </View>
+                    <View className="mb-4">
+                        <ArticleCard />
+                    </View>
+                    <View className="mb-4">
+                        <ArticleCard />
+                    </View>
+                </View>
+            </ScrollView>
+        </View>
     )
 }
 
@@ -90,9 +92,6 @@ const styles = StyleSheet.create({
     },
     selectedCategoryBtn: {
         fontFamily: "montserrat-bold"
-    },
-    topArticle: {
-        borderRadius: 15
     },
     blogHeading: {
         backgroundColor: "#C3D8B3",

@@ -13,7 +13,7 @@ const Footer = () => {
                     <Text className="text-xs mt-1 text-white" style={{ fontFamily: "montserrat-medium" }}>Home</Text>
                 </View>
             </Link>
-            <Link href="/article/preview">
+            <Link href="/article/upload">
                 <View className="flex items-center justify-center">
                     <View className="w-6 aspect-square rounded-full">
                         <Image className="w-full h-full" source={require("../../assets/blog-write.png")} />

@@ -39,15 +39,17 @@ const login = () => {
 
 
                     <View className="mt-4">
-                        <Button>Login</Button>
+                        <Button bgColor={"#C3D8B3"}>
+                            <Text className="text-lg" style={{ fontFamily: "montserrat-bold" }}>Login</Text>
+                        </Button>
                     </View>
 
                     <Text className="w-full text-center my-2 text-lg">or</Text>
                     {/* google button */}
 
-                    <TouchableOpacity className="w-8/12 mx-auto p-1 h-10 bg-blue-400 flex flex-row justify-between">
-                        <Image className="h-full aspect-square" source={{ uri: "https://cdn2.hubspot.net/hubfs/53/image8-2.jpg" }} />
-                        <Text className=" h-full pl-2 text-lg text-center" style={{ fontFamily: "montserrat-medium" }}>Continue with google</Text>
+                    <TouchableOpacity className="p-1 w-fit h-fit mx-auto bg-blue-400 flex flex-row justify-between items-center">
+                        <View className="w-10 aspect-square bg-white"><Image className="h-full aspect-square" source={require("../../../assets/google.png")} /></View>
+                        <Text className="pl-2 text-lg text-center" style={{ fontFamily: "montserrat-bold" }}>Continue with google</Text>
                     </TouchableOpacity>
 
                     <View className="flex flex-row mx-auto mt-2">
