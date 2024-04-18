@@ -32,14 +32,17 @@ const login = () => {
                         Sign Up
                     </Text>
 
-                    <View className="my-4 mt-8">
+                    <View className="mt-8">
+                        <Input size="md" placeholder="name" />
+                    </View>
+                    <View className="my-4">
                         <Input size="md" placeholder="email" />
                     </View>
                     <Input size="md" placeholder="password" type='password' />
 
 
                     <View className="mt-4">
-                        <Button>Login</Button>
+                        <Button>Sign Up</Button>
                     </View>
 
                     <Text className="w-full text-center my-2 text-lg">or</Text>
@@ -51,8 +54,8 @@ const login = () => {
                     </TouchableOpacity>
 
                     <View className="flex flex-row mx-auto mt-2">
-                        <Text className="mr-2" style={{ fontFamily: "montserrat-medium" }}>Don't have an account ?</Text>
-                        <Link href="/profile">
+                        <Text className="mr-2" style={{ fontFamily: "montserrat-medium" }}>Already have an account !</Text>
+                        <Link href="/user/login">
                             <Text className="text-blue-500" style={{ fontFamily: "montserrat-medium" }}>Click here</Text>
                         </Link>
                     </View>

@@ -52,7 +52,7 @@ const login = () => {
 
                     <View className="flex flex-row mx-auto mt-2">
                         <Text className="mr-2" style={{ fontFamily: "montserrat-medium" }}>Don't have an account ?</Text>
-                        <Link href="/profile">
+                        <Link href="/user/register">
                             <Text className="text-blue-500" style={{ fontFamily: "montserrat-medium" }}>Click here</Text>
                         </Link>
                     </View>
