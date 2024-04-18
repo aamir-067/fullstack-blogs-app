@@ -1,7 +1,7 @@
-import { StyleSheet, Text, View, TextInput, ScrollView, Image, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View, ScrollView, Image, TouchableOpacity } from 'react-native'
 import React from 'react'
 import { Link, router } from "expo-router";
-import { Button, Input, Stack } from "native-base";
+import { Button, Input } from "native-base";
 const login = () => {
     return (
         <ScrollView showsVerticalScrollIndicator={false}>

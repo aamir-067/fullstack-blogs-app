@@ -1,5 +1,4 @@
-import { StatusBar } from 'expo-status-bar';
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { View } from 'react-native';
 import Footer from "../components/Footer/Footer";
 import { useFonts } from "expo-font";
 import * as SplashScreen from 'expo-splash-screen';

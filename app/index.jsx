@@ -1,7 +1,7 @@
-import { Button, ScrollView, StyleSheet, Text, View, Image, Pressable, TouchableOpacity } from 'react-native'
+import { ScrollView, StyleSheet, Text, View, Image, Pressable } from 'react-native'
 import React from 'react'
 import ArticleCard from '../components/ArticleCard/ArticleCard';
-import { Link, router } from 'expo-router';
+import { router } from 'expo-router';
 const HomePage = () => {
     return (
         <View className="mx-2">
