@@ -23,7 +23,9 @@
     "react": "18.2.0",
     "react-native": "0.73.6",
     "react-native-safe-area-context": "3.3.2",
-    "react-native-screens": "~3.29.0"
+    "react-native-screens": "~3.29.0",
+    "expo-dev-client": "~3.3.11",
+    "expo-document-picker": "~11.10.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

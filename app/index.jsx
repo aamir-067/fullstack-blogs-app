@@ -1,26 +1,21 @@
 import { Button, ScrollView, StyleSheet, Text, View, Image } from 'react-native'
 import React from 'react'
 import ArticleCard from '../components/ArticleCard/ArticleCard';
-import Login from "./user/register/index";
-
+import Upload from './article/upload';
 const HomePage = () => {
-    const temp = true;
-
-
     return (
-        temp ?
-            <Login />
-            :
+        true ? <Upload /> :
             <View className="mx-2">
                 <ScrollView showsVerticalScrollIndicator={false}>
                     <Text className="mt-12" style={styles.welcomeHeading}>Welcome, 👋</Text>
 
                     <ScrollView horizontal showsHorizontalScrollIndicator={false} className="mt-4 py-4">
-                        <Text style={styles.categoryBtn}>Latest</Text>
+                        <Text style={styles.categoryBtn}>All</Text>
                         <Text style={[styles.categoryBtn, styles.selectedCategoryBtn]}>Technology</Text>
                         <Text style={styles.categoryBtn}>Finance</Text>
                         <Text style={styles.categoryBtn}>Politics</Text>
                         <Text style={styles.categoryBtn}>Programming</Text>
+                        <Text style={styles.categoryBtn}>Other</Text>
                     </ScrollView>
                     {/* line */}
                     <View className="w-full border-b-2 border-gray-200"></View>

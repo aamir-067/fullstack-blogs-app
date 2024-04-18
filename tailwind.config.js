@@ -2,7 +2,11 @@
 module.exports = {
   content: ["./App.js", "./app/**/*.{js,jsx,ts,tsx}", "./components/**/*.{js,jsx,ts,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      aspectRatio: {
+        "4/3": "4 / 3"
+      }
+    },
   },
   plugins: [],
 }
