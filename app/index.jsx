@@ -1,7 +1,7 @@
 import { Button, ScrollView, StyleSheet, Text, View, Image } from 'react-native'
 import React from 'react'
 import ArticleCard from '../components/ArticleCard/ArticleCard';
-import Upload from './article/upload';
+import Upload from './article/edit';
 const HomePage = () => {
     return (
         true ? <Upload /> :
