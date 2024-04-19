@@ -13,19 +13,21 @@
     "@react-navigation/native-stack": "^6.9.26",
     "expo": "~50.0.14",
     "expo-constants": "~15.4.5",
+    "expo-dev-client": "~3.3.11",
+    "expo-document-picker": "~11.10.1",
     "expo-font": "~11.10.3",
     "expo-linking": "~6.2.2",
     "expo-router": "~3.4.8",
     "expo-splash-screen": "~0.26.4",
     "expo-status-bar": "~1.11.1",
+    "firebase": "^10.11.0",
     "native-base": "^3.4.28",
     "nativewind": "^2.0.11",
     "react": "18.2.0",
     "react-native": "0.73.6",
     "react-native-safe-area-context": "3.3.2",
     "react-native-screens": "~3.29.0",
-    "expo-dev-client": "~3.3.11",
-    "expo-document-picker": "~11.10.1"
+    "@react-native-async-storage/async-storage": "1.21.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

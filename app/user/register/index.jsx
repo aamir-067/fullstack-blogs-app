@@ -1,8 +1,26 @@
 import { StyleSheet, Text, View, ScrollView, Image, TouchableOpacity } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Link, router } from "expo-router";
 import { Button, Input } from "native-base";
+import { createEmailAndPassUser, signInWithGoogle } from '../../../firebase/auth';
 const login = () => {
+    const [input, setInput] = React.useState({
+        name: "",
+        email: '',
+        password: ''
+    })
+
+
+    const handleInputChange = (value, inputName) => {
+        setInput({
+            ...input,
+            [inputName]: value
+        })
+    }
+
+
+
+
     return (
         <ScrollView showsVerticalScrollIndicator={false}>
             <View className="min-h-screen">
@@ -33,16 +51,16 @@ const login = () => {
                     </Text>
 
                     <View className="mt-8">
-                        <Input size="md" placeholder="name" />
+                        <Input onChangeText={(value) => handleInputChange(value, "name")} size="md" placeholder="name" />
                     </View>
                     <View className="my-4">
-                        <Input size="md" placeholder="email" />
+                        <Input onChangeText={(value) => handleInputChange(value, "email")} size="md" placeholder="email" />
                     </View>
-                    <Input size="md" placeholder="password" type='password' />
+                    <Input size="md" onChangeText={(value) => handleInputChange(value, "password")} placeholder="password" type='password' />
 
 
                     <View className="mt-4">
-                        <Button bgColor={"#C3D8B3"}>
+                        <Button onPress={() => createEmailAndPassUser({ mail: input.email, password: input.password })} bgColor={"#C3D8B3"}>
                             <Text className="text-lg" style={{ fontFamily: "montserrat-bold" }}>Login</Text>
                         </Button>
                     </View>
@@ -50,7 +68,7 @@ const login = () => {
                     <Text className="w-full text-center my-2 text-lg">or</Text>
                     {/* google button */}
 
-                    <TouchableOpacity className="p-1 w-fit h-fit mx-auto bg-blue-400 flex flex-row justify-between items-center">
+                    <TouchableOpacity onPress={() => signInWithGoogle()} className="p-1 w-fit h-fit mx-auto bg-blue-400 flex flex-row justify-between items-center">
                         <View className="w-10 aspect-square bg-white"><Image className="h-full aspect-square" source={require("../../../assets/google.png")} /></View>
                         <Text className="pl-2 text-lg text-center" style={{ fontFamily: "montserrat-bold" }}>Continue with google</Text>
                     </TouchableOpacity>
