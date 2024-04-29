@@ -5,8 +5,8 @@ import {
     signInWithEmailAndPassword,
     signInWithPopup,
 } from "firebase/auth";
+import { storeJson } from "../utils/asyncStorage.js";
 import { app } from "./firebase.config";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const createEmailAndPassUser = async ({ mail, password }) => {
     const auth = getAuth(app);
@@ -27,6 +27,7 @@ export const signInUserWithEmail = async ({ email, pass }) => {
         const response = await signInWithEmailAndPassword(auth, email, pass);
         const userDetails = response.user;
         console.log(userDetails);
+        await storeJson("userDetails", userDetails);
         return userDetails;
     } catch (error) {
         console.log(error?.massage);
