@@ -1,8 +1,23 @@
 import { StyleSheet, Text, View, ScrollView, Image, TouchableOpacity } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, router } from "expo-router";
 import { Button, Input } from "native-base";
+import { signInUserWithEmail } from "../../../firebase/auth.js"
 const login = () => {
+
+    const [details, setUserDetails] = useState({ email: "", password: "" });
+    const handleInputs = (key, value) => {
+        console.log(key, value);
+        setUserDetails({
+            ...details,
+            [key]: value
+        });
+    };
+
+    useEffect(() => {
+        console.log(details);
+    }, [details]);
+
     return (
         <ScrollView showsVerticalScrollIndicator={false}>
             <View className="min-h-screen">
@@ -33,13 +48,13 @@ const login = () => {
                     </Text>
 
                     <View className="my-4 mt-8">
-                        <Input size="md" placeholder="email" />
+                        <Input onChangeText={(text) => handleInputs("email", text)} size="md" placeholder="email" />
                     </View>
-                    <Input size="md" placeholder="password" type='password' />
+                    <Input onChangeText={(pass) => handleInputs("password", pass)} size="md" placeholder="password" type='password' />
 
 
                     <View className="mt-4">
-                        <Button bgColor={"#C3D8B3"}>
+                        <Button bgColor={"#C3D8B3"} onPress={() => signInUserWithEmail({ email: details.email, pass: details.password })}>
                             <Text className="text-lg" style={{ fontFamily: "montserrat-bold" }}>Login</Text>
                         </Button>
                     </View>

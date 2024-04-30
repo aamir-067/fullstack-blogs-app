@@ -7,32 +7,48 @@ import {
 } from "firebase/auth";
 import { storeJson } from "../utils/asyncStorage.js";
 import { app } from "./firebase.config";
+import { addUser, getUserById } from "./firestore/user.controllers.js";
 
-export const createEmailAndPassUser = async ({ mail, password }) => {
+export const createEmailAndPassUser = async ({ name, email, password }) => {
     const auth = getAuth(app);
+    [name, email, password].forEach((value) => {
+        if (!value) {
+            throw new Error("All fields are required");
+        }
+    });
     try {
-        const response = await createUserWithEmailAndPassword(auth, mail, password);
+        const response = await createUserWithEmailAndPassword(auth, email, password);
         const userDetails = response.user;
         console.log(userDetails);
-        return userDetails;
+        const details = await addUser(userDetails.uid, { name, email, password, image: "" });
+        await storeJson("userDetails", details);
+        return details;
     } catch (error) {
         console.log(error);
         return null;
     }
 }
 
+
 export const signInUserWithEmail = async ({ email, pass }) => {
+
+    [email, pass].forEach((value) => {
+        if (!value) {
+            throw new Error("All fields are required");
+        }
+    })
+
     const auth = getAuth(app);
-    try {
-        const response = await signInWithEmailAndPassword(auth, email, pass);
-        const userDetails = response.user;
-        console.log(userDetails);
-        await storeJson("userDetails", userDetails);
-        return userDetails;
-    } catch (error) {
-        console.log(error?.massage);
-        return null;
+    const userCredential = await signInWithEmailAndPassword(auth, email, pass)
+    const user = userCredential.user;
+    //console.log(user);
+    if (user) {
+        const details = await getUserById(user.uid);
+        await storeJson("userDetails", details);
+        console.log(details);
     }
+    // const userId = await addUser({ name, email, password, image: "" });
+    return null;
 }
 
 export const signInWithGoogle = async () => {

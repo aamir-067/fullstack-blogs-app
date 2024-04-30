@@ -1,9 +1,26 @@
 import { StyleSheet, Text, View, Image, ScrollView } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, router } from 'expo-router'
 import { Button } from 'native-base'
 import ArticleCard from '../../components/ArticleCard/ArticleCard'
+import { getJson } from "../../utils/asyncStorage.js"
+
+
+
 const Profile = () => {
+    const [useDetails, setUserDetails] = useState(undefined);
+
+
+    useEffect(() => {
+        (async () => {
+            const useData = await getJson("userDetails");
+            if (useData) {
+                console.log("user is Logged in");
+                console.log(useData);
+                setUserDetails(useData);
+            }
+        })()
+    }, []);
     return (
         <View className="min-h-screen relative">
 
@@ -37,7 +54,7 @@ const Profile = () => {
 
                     {/* if logged in */}
                     {
-                        false && <View>
+                        useDetails ? <View>
                             {/* avatar */}
                             <View className="h-30 mt-16 flex items-center">
                                 <View className=" border-4 border-white w-28 aspect-square rounded-full overflow-hidden">
@@ -78,21 +95,22 @@ const Profile = () => {
                                     <ArticleCard />
                                 </View>
                             </View>
-                        </View>
+                        </View> :
+                            // when its logged out
+                            <View View className="mt-60">
+                                <Text className="text-center text-lg mb-5" style={{ fontFamily: "montserrat-bold" }}>Don't have an account ?</Text>
+
+                                <Button bgColor={"#C3D8B3"}>
+                                    <Link href={"/user/register"}>
+                                        <Text className="text-center text-lg" style={{ fontFamily: "montserrat-bold" }}>Get Started</Text>
+                                    </Link>
+                                </Button>
+                            </View>
                     }
 
-                    {/* when its logged out */}
-                    <View className="mt-60">
-                        <Text className="text-center text-lg mb-5" style={{ fontFamily: "montserrat-bold" }}>Don't have an account ?</Text>
 
-                        <Button bgColor={"#C3D8B3"}>
-                            <Link href={"/user/register"}>
-                                <Text className="text-center text-lg" style={{ fontFamily: "montserrat-bold" }}>Get Started</Text>
-                            </Link>
-                        </Button>
-                    </View>
                 </ScrollView>
-            </View>
+            </View >
         </View >
 
     )

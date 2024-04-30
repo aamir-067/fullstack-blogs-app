@@ -60,7 +60,7 @@ const login = () => {
 
 
                     <View className="mt-4">
-                        <Button onPress={() => createEmailAndPassUser({ mail: input.email, password: input.password })} bgColor={"#C3D8B3"}>
+                        <Button onPress={() => createEmailAndPassUser({ ...input })} bgColor={"#C3D8B3"}>
                             <Text className="text-lg" style={{ fontFamily: "montserrat-bold" }}>Login</Text>
                         </Button>
                     </View>
