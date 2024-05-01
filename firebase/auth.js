@@ -1,13 +1,16 @@
 import {
     getAuth,
+    signOut,
     createUserWithEmailAndPassword,
     GoogleAuthProvider,
     signInWithEmailAndPassword,
     signInWithPopup,
 } from "firebase/auth";
-import { storeJson } from "../utils/asyncStorage.js";
+import { router } from 'expo-router';
+import { getJson, storeJson } from "../utils/asyncStorage.js";
 import { app } from "./firebase.config";
 import { addUser, getUserById } from "./firestore/user.controllers.js";
+
 
 export const createEmailAndPassUser = async ({ name, email, password }) => {
     const auth = getAuth(app);
@@ -21,7 +24,8 @@ export const createEmailAndPassUser = async ({ name, email, password }) => {
         const userDetails = response.user;
         console.log(userDetails);
         const details = await addUser(userDetails.uid, { name, email, password, image: "" });
-        await storeJson("userDetails", details);
+        // await storeJson("userDetails", details);
+        router.navigate("/");
         return details;
     } catch (error) {
         console.log(error);
@@ -41,13 +45,26 @@ export const signInUserWithEmail = async ({ email, pass }) => {
     const auth = getAuth(app);
     const userCredential = await signInWithEmailAndPassword(auth, email, pass)
     const user = userCredential.user;
-    //console.log(user);
     if (user) {
         const details = await getUserById(user.uid);
         await storeJson("userDetails", details);
-        console.log(details);
+        router.navigate("/");
     }
-    // const userId = await addUser({ name, email, password, image: "" });
+}
+
+export const signOutUser = async () => {
+    console.log("trigger");
+    const auth = getAuth(app);
+    // make sure that user is logged in.
+    const userDetails = await getJson("userDetails");
+    if (userDetails) {
+        const res = await signOut(auth);
+        console.log("response of logOut : ", res);
+        await storeJson("userDetails", null);
+        router.navigate("/");
+        return true;
+    }
+    // console.log("failed logout");
     return null;
 }
 

@@ -19,8 +19,6 @@ const login = () => {
     }
 
 
-
-
     return (
         <ScrollView showsVerticalScrollIndicator={false}>
             <View className="min-h-screen">

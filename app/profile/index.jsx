@@ -1,22 +1,19 @@
-import { StyleSheet, Text, View, Image, ScrollView } from 'react-native'
+import { StyleSheet, Text, View, Image, ScrollView, Pressable } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { Link, router } from 'expo-router'
 import { Button } from 'native-base'
 import ArticleCard from '../../components/ArticleCard/ArticleCard'
 import { getJson } from "../../utils/asyncStorage.js"
-
-
+import { signOutUser } from '../../firebase/auth.js'
 
 const Profile = () => {
-    const [useDetails, setUserDetails] = useState(undefined);
+    const [userDetails, setUserDetails] = useState(undefined);
 
 
     useEffect(() => {
         (async () => {
             const useData = await getJson("userDetails");
             if (useData) {
-                console.log("user is Logged in");
-                console.log(useData);
                 setUserDetails(useData);
             }
         })()
@@ -47,14 +44,16 @@ const Profile = () => {
                                 Back
                             </Text>
                         </View>
-                        <Text className="text-base" style={{ fontFamily: "montserrat-semibold" }}>
-                            Edit
-                        </Text>
+                        {
+                            userDetails && <Pressable onPress={signOutUser}>
+                                <Text className="text-base" style={{ fontFamily: "montserrat-semibold" }}>logout</Text>
+                            </Pressable>
+                        }
                     </View>
 
                     {/* if logged in */}
                     {
-                        useDetails ? <View>
+                        userDetails ? <View>
                             {/* avatar */}
                             <View className="h-30 mt-16 flex items-center">
                                 <View className=" border-4 border-white w-28 aspect-square rounded-full overflow-hidden">
@@ -64,8 +63,8 @@ const Profile = () => {
 
                             {/* name and mail */}
                             <View className="mt-2 flex items-center">
-                                <Text className="text-base" style={{ fontFamily: "montserrat-semibold" }}>Jack Richer</Text>
-                                <Text className="text-xs" style={{ fontFamily: "montserrat-regular" }}>jack.richer067@gmail.com</Text>
+                                <Text className="text-base" style={{ fontFamily: "montserrat-semibold" }}>{userDetails?.name}</Text>
+                                <Text className="text-xs" style={{ fontFamily: "montserrat-regular" }}>{userDetails?.email}</Text>
                             </View>
 
                             {/* uploaded articles */}
