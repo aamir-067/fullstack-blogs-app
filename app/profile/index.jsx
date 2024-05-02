@@ -5,6 +5,7 @@ import { Button } from 'native-base'
 import ArticleCard from '../../components/ArticleCard/ArticleCard'
 import { getJson } from "../../utils/asyncStorage.js"
 import { signOutUser } from '../../firebase/auth.js'
+import { getUserUploadedBlogs } from '../../firebase/firestore/user.controllers.js'
 
 const Profile = () => {
     const [userDetails, setUserDetails] = useState(undefined);
@@ -15,6 +16,7 @@ const Profile = () => {
             const useData = await getJson("userDetails");
             if (useData) {
                 setUserDetails(useData);
+                await getUserUploadedBlogs();
             }
         })()
     }, []);

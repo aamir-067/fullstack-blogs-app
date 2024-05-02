@@ -1,7 +1,6 @@
-import { collection, setDoc, getDoc, doc } from "firebase/firestore";
+import { collection, setDoc, getDoc, doc, query, where, getDocs } from "firebase/firestore";
 import { db } from "../firebase.config.js";
-
-
+import { getJson } from "../../utils/asyncStorage.js";
 export const addUser = async (uid, { name, email, password, image }) => {
     try {
         const res = await setDoc(doc(db, "Users", uid), {
@@ -13,8 +12,6 @@ export const addUser = async (uid, { name, email, password, image }) => {
         return null;
     }
 }
-
-
 export const getUserById = async (userId) => {
     try {
         const docSnap = await getDoc(doc(db, "Users", userId));
@@ -35,15 +32,71 @@ export const getUserById = async (userId) => {
 
 export const getUserByEmail = async (email) => {
     try {
-        const res = db.collection("Users").where("email", "==", email).get();
-        if (res.empty) {
-            return null;
-        } else {
-            console.log(res[0]);
-            return res[0];
-        }
+        const q = query(collection(db, "Users"), where("email", "==", email));
+        const querySnapshot = await getDocs(q);
+        let myUser;
+        querySnapshot.forEach((doc) => {
+            if (doc.data().email === email) {
+                myUser = { uid: doc.id, ...doc.data() }
+            }
+        });
+        return myUser;
     } catch (error) {
         console.log(error);
         return null;
+    }
+}
+
+export const uploadBlog = async ({ title, readingTime, content, image }) => {
+    try {
+        [title, readingTime, content, image].forEach((value) => {
+            if (!value) {
+                throw new Error("All fields are required");
+            }
+        });
+
+    } catch (error) {
+        console.log(error);
+        return null;
+    }
+}
+
+
+
+export const getBlog = async (uid) => {
+
+}
+
+export const getUserUploadedBlogs = async () => {
+    // get the userDetails from localStorage.
+    // search for userDetails by email.
+    // get the uid.
+    // get the uploaded blogs uid array.
+    // get the blogs from firestore.
+    // return it.
+
+    try {
+        const userDetails = await getJson("userDetails");
+        if (!userDetails) {
+            throw new Error("User not found");
+        }
+
+        const userDetailsFromDb = await getUserByEmail(userDetails?.email);
+        const uid = userDetailsFromDb?.uid ? userDetailsFromDb?.uid : null;
+        if (!uid) {
+            throw new Error("User not found");
+        }
+        const q = query(collection(db, "UploadedBlogs"), where("userId", "==", uid));
+        const querySnapshot = await getDocs(q);
+        let uploadedBlogsIds = [];
+        querySnapshot.forEach((doc) => {
+            uploadedBlogsIds.push(doc.data()?.blogId);
+        });
+
+        console.log(uploadedBlogsIds);
+
+
+    } catch (error) {
+        console.log(error);
     }
 }
