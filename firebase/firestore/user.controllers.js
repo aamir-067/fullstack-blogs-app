@@ -1,6 +1,7 @@
 import { collection, setDoc, getDoc, doc, query, where, getDocs } from "firebase/firestore";
 import { db } from "../firebase.config.js";
 import { getJson } from "../../utils/asyncStorage.js";
+import { getBlog } from "./blog.controller.js";
 export const addUser = async (uid, { name, email, password, image }) => {
     try {
         const res = await setDoc(doc(db, "Users", uid), {
@@ -62,11 +63,6 @@ export const uploadBlog = async ({ title, readingTime, content, image }) => {
 }
 
 
-
-export const getBlog = async (uid) => {
-
-}
-
 export const getUserUploadedBlogs = async () => {
     // get the userDetails from localStorage.
     // search for userDetails by email.
@@ -93,7 +89,15 @@ export const getUserUploadedBlogs = async () => {
             uploadedBlogsIds.push(doc.data()?.blogId);
         });
 
-        console.log(uploadedBlogsIds);
+
+        let blogsLength = uploadedBlogsIds.length;
+        let blogsDetails = [];
+        for (let i = 0; i < blogsLength; i++) {
+            const blogDetail = await getBlog(uploadedBlogsIds[i]);
+            blogsDetails.push(blogDetail);
+        }
+
+        return blogsDetails;
 
 
     } catch (error) {

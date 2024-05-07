@@ -3,20 +3,25 @@ import React, { useEffect, useState } from 'react'
 import { Link, router } from 'expo-router'
 import { Button } from 'native-base'
 import ArticleCard from '../../components/ArticleCard/ArticleCard'
-import { getJson } from "../../utils/asyncStorage.js"
+import { getJson, storeJson } from "../../utils/asyncStorage.js"
 import { signOutUser } from '../../firebase/auth.js'
-import { getUserUploadedBlogs } from '../../firebase/firestore/user.controllers.js'
+import { getUserByEmail, getUserUploadedBlogs } from '../../firebase/firestore/user.controllers.js'
 
 const Profile = () => {
     const [userDetails, setUserDetails] = useState(undefined);
+    const [userUploadedBlogs, setUserUploadedBlogs] = useState([]);
 
 
     useEffect(() => {
         (async () => {
             const useData = await getJson("userDetails");
             if (useData) {
-                setUserDetails(useData);
-                await getUserUploadedBlogs();
+                // fetch the latest data and then store it in localStorage and update it in UI.
+                const latestUserDetails = await getUserByEmail(useData.email);
+                await storeJson("userDetails", latestUserDetails);
+                setUserDetails(latestUserDetails);
+                const allBlogs = await getUserUploadedBlogs();
+                setUserUploadedBlogs(allBlogs);
             }
         })()
     }, []);
@@ -59,7 +64,7 @@ const Profile = () => {
                             {/* avatar */}
                             <View className="h-30 mt-16 flex items-center">
                                 <View className=" border-4 border-white w-28 aspect-square rounded-full overflow-hidden">
-                                    <Image className="w-full h-full" source={{ uri: "https://www.shutterstock.com/image-photo/head-shot-portrait-close-smiling-600nw-1714666150.jpg" }} />
+                                    <Image className="w-full h-full" source={{ uri: userDetails?.image }} />
                                 </View>
                             </View>
 
@@ -80,21 +85,14 @@ const Profile = () => {
 
                             {/* Articles */}
                             <View className="flex">
-                                <View className="mb-4">
-                                    <ArticleCard />
-                                </View>
-                                <View className="mb-4">
-                                    <ArticleCard />
-                                </View>
-                                <View className="mb-4">
-                                    <ArticleCard />
-                                </View>
-                                <View className="mb-4">
-                                    <ArticleCard />
-                                </View>
-                                <View className="mb-4">
-                                    <ArticleCard />
-                                </View>
+                                {
+                                    userUploadedBlogs.map((blog, index) => {
+                                        return <View key={index} className="mb-4">
+                                            <ArticleCard blog={blog} owner={userDetails} />
+                                        </View>
+                                    })
+                                }
+
                             </View>
                         </View> :
                             // when its logged out

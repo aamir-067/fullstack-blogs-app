@@ -50,19 +50,10 @@ const HomePage = () => {
                 {/* Articles */}
                 <View className="flex">
                     <View className="mb-4">
-                        <ArticleCard />
+                        {/* <ArticleCard /> */}
                     </View>
                     <View className="mb-4">
-                        <ArticleCard />
-                    </View>
-                    <View className="mb-4">
-                        <ArticleCard />
-                    </View>
-                    <View className="mb-4">
-                        <ArticleCard />
-                    </View>
-                    <View className="mb-4">
-                        <ArticleCard />
+                        {/* <ArticleCard /> */}
                     </View>
                 </View>
             </ScrollView>

@@ -22,7 +22,6 @@ export const createEmailAndPassUser = async ({ name, email, password }) => {
     try {
         const response = await createUserWithEmailAndPassword(auth, email, password);
         const userDetails = response.user;
-        console.log(userDetails);
         const details = await addUser(userDetails.uid, { name, email, password, image: "" });
         // await storeJson("userDetails", details);
         router.navigate("/");
@@ -53,13 +52,11 @@ export const signInUserWithEmail = async ({ email, pass }) => {
 }
 
 export const signOutUser = async () => {
-    console.log("trigger");
     const auth = getAuth(app);
     // make sure that user is logged in.
     const userDetails = await getJson("userDetails");
     if (userDetails) {
         const res = await signOut(auth);
-        console.log("response of logOut : ", res);
         await storeJson("userDetails", null);
         router.navigate("/");
         return true;
@@ -70,7 +67,6 @@ export const signOutUser = async () => {
 
 export const signInWithGoogle = async () => {
     const auth = getAuth(app);
-    console.log("trigger");
     const provider = new GoogleAuthProvider(app);
 
     try {
