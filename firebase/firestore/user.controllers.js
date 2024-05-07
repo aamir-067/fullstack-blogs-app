@@ -97,7 +97,7 @@ export const getUserUploadedBlogs = async () => {
             blogsDetails.push(blogDetail);
         }
 
-        return blogsDetails;
+        return [blogsDetails, uploadedBlogsIds];
 
 
     } catch (error) {

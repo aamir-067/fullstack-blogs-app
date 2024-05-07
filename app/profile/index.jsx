@@ -9,7 +9,7 @@ import { getUserByEmail, getUserUploadedBlogs } from '../../firebase/firestore/u
 
 const Profile = () => {
     const [userDetails, setUserDetails] = useState(undefined);
-    const [userUploadedBlogs, setUserUploadedBlogs] = useState([]);
+    const [userUploadedBlogs, setUserUploadedBlogs] = useState([[], []]);
 
 
     useEffect(() => {
@@ -20,8 +20,8 @@ const Profile = () => {
                 const latestUserDetails = await getUserByEmail(useData.email);
                 await storeJson("userDetails", latestUserDetails);
                 setUserDetails(latestUserDetails);
-                const allBlogs = await getUserUploadedBlogs();
-                setUserUploadedBlogs(allBlogs);
+                const [allBlogs, blogsIndexes] = await getUserUploadedBlogs();
+                setUserUploadedBlogs([allBlogs, blogsIndexes]);
             }
         })()
     }, []);
@@ -86,9 +86,11 @@ const Profile = () => {
                             {/* Articles */}
                             <View className="flex">
                                 {
-                                    userUploadedBlogs.map((blog, index) => {
-                                        return <View key={index} className="mb-4">
+                                    userUploadedBlogs[0].map((blog, index) => {
+                                        return <View onTouchEnd={() => router.navigate(`/article/preview/${userUploadedBlogs[1][index]}`)} key={index} className="mb-4">
+
                                             <ArticleCard blog={blog} owner={userDetails} />
+
                                         </View>
                                     })
                                 }

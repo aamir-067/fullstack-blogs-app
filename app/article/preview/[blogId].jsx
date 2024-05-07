@@ -1,8 +1,18 @@
 import { StyleSheet, Text, View, Image, ScrollView } from "react-native";
+import { useLocalSearchParams } from 'expo-router';
 import React from "react";
 import { Link, router } from "expo-router";
 
 const ArticlePreview = () => {
+
+	const { blogId } = useLocalSearchParams();
+
+
+	//TODO: fetch the results opf the blog whose id is blogId and update the result in UI
+
+
+	console.log("Blog Id which you visited : ", blogId);
+
 	return (
 		<ScrollView>
 			<View className="min-h-screen">

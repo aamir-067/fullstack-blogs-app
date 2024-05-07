@@ -3,8 +3,6 @@ import React from 'react'
 
 const ArticleCard = ({ blog, owner } = { blog: {}, owner: {} }) => {
 
-
-    console.log("BLOGGG : ", owner);
     return (
         <View>
             <View className="h-[72px] w-full flex flex-row justify-between">
