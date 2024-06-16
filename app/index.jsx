@@ -2,14 +2,19 @@ import { ScrollView, StyleSheet, Text, View, Image, Pressable } from 'react-nati
 import React from 'react'
 import ArticleCard from '../components/ArticleCard/ArticleCard';
 import { router } from 'expo-router';
+import { useSelector } from 'react-redux';
+import { store } from '../store/store';
 const HomePage = () => {
+
+    const counter = store.getState().counter
+    console.log(counter);
     return (
         <View className="mx-2">
             <ScrollView showsVerticalScrollIndicator={false}>
                 <Text className="mt-12" style={styles.welcomeHeading}>Welcome, 👋</Text>
 
                 <ScrollView horizontal showsHorizontalScrollIndicator={false} className="mt-4 py-4">
-                    <Text style={styles.categoryBtn}>All</Text>
+                    <Text style={styles.categoryBtn}> All</Text>
                     <Text style={[styles.categoryBtn, styles.selectedCategoryBtn]}>Technology</Text>
                     <Text style={styles.categoryBtn}>Finance</Text>
                     <Text style={styles.categoryBtn}>Politics</Text>

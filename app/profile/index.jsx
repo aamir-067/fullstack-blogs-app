@@ -17,11 +17,15 @@ const Profile = () => {
             const useData = await getJson("userDetails");
             if (useData) {
                 // fetch the latest data and then store it in localStorage and update it in UI.
-                const latestUserDetails = await getUserByEmail(useData.email);
-                await storeJson("userDetails", latestUserDetails);
-                setUserDetails(latestUserDetails);
-                const [allBlogs, blogsIndexes] = await getUserUploadedBlogs();
-                setUserUploadedBlogs([allBlogs, blogsIndexes]);
+                try {
+                    const latestUserDetails = await getUserByEmail(useData.email);
+                    await storeJson("userDetails", latestUserDetails);
+                    setUserDetails(latestUserDetails);
+                    const [allBlogs, blogsIndexes] = await getUserUploadedBlogs();
+                    setUserUploadedBlogs([allBlogs, blogsIndexes]);
+                } catch (error) {
+                    console.log("error in fetching the user profile results.", error);
+                }
             }
         })()
     }, []);

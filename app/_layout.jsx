@@ -1,10 +1,12 @@
-import { View } from 'react-native';
+import { SafeAreaView, View } from 'react-native';
 import Footer from "../components/Footer/Footer";
 import { useFonts } from "expo-font";
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import { NativeBaseProvider } from "native-base";
 import { Slot } from 'expo-router';
+import { store } from '../store/store';
+import { Provider } from 'react-redux';
 export default function App() {
   const [loaded, error] = useFonts({
     "rufina-regular": require("../assets/fonts/Rufina-Regular.ttf"),
@@ -32,16 +34,19 @@ export default function App() {
     return null;
   }
 
+
+
   return (
     <NativeBaseProvider>
-      <View className="">
-
+      <SafeAreaView className="">
         <View className="" style={{ height: "93%" }}>
-          <Slot />
+          <Provider store={store}>
+            <Slot />
+          </Provider>
         </View>
         <Footer />
 
-      </View>
+      </SafeAreaView>
     </NativeBaseProvider>
 
   );

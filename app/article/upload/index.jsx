@@ -1,10 +1,13 @@
 import { StyleSheet, Text, View, TouchableOpacity, ScrollView, Image } from 'react-native'
 import * as DocumentPicker from 'expo-document-picker';
-import React from 'react'
+import React, { useState } from 'react'
 import { Input, TextArea, Button } from "native-base";
 import { router } from "expo-router";
+import im from "../../../assets/image_icon.png";
 
 const Upload = () => {
+
+    const [coverPic, setCoverPic] = useState("");
 
 
 
@@ -16,6 +19,8 @@ const Upload = () => {
 
         if (res?.canceled == false) {
             console.log(res?.assets[0]);
+            // console.log();
+            console.log(res?.assets[0]?.uri);
         }
     }
     return (
@@ -53,7 +58,11 @@ const Upload = () => {
 
                     <TouchableOpacity onPress={getPicture} className="w-full mt-4 aspect-[3/2] flex justify-center items-center" style={{ backgroundColor: "#C3D8B3" }}>
                         <View className="w-20 h-20">
-                            <Image className="w-full h-full" source={require("../../../assets/image_icon.png")} />
+                            <Image className="w-full h-full" source={
+                                coverPic ? {
+                                    uri: coverPic?.uri
+                                } : require("../../../assets/image_icon.png")
+                            } />
                         </View>
                         <Text className=" mt-2" style={{ fontFamily: "montserrat-semibold" }}>Select Image to Upload</Text>
                     </TouchableOpacity>
