@@ -1,21 +1,19 @@
-import { ScrollView, StyleSheet, Text, View, Image, Pressable } from 'react-native'
+import { ScrollView, StyleSheet, Text, View, Image, Pressable, SafeAreaView } from 'react-native'
 import React from 'react'
-import ArticleCard from '../components/ArticleCard/ArticleCard';
 import { router } from 'expo-router';
-import { useSelector } from 'react-redux';
 import { store } from '../store/store';
 const HomePage = () => {
 
-    const counter = store.getState().counter
+    const counter = store.getState().counter.value
     console.log(counter);
     return (
-        <View className="mx-2">
+        <SafeAreaView className="mx-2">
             <ScrollView showsVerticalScrollIndicator={false}>
-                <Text className="mt-12" style={styles.welcomeHeading}>Welcome, 👋</Text>
+                <Text className="" style={styles.welcomeHeading}>Welcome, 👋</Text>
 
                 <ScrollView horizontal showsHorizontalScrollIndicator={false} className="mt-4 py-4">
-                    <Text style={styles.categoryBtn}> All</Text>
-                    <Text style={[styles.categoryBtn, styles.selectedCategoryBtn]}>Technology</Text>
+                    <Text style={[styles.categoryBtn, styles.selectedCategoryBtn]}> Latest</Text>
+                    <Text style={[styles.categoryBtn]}>Technology</Text>
                     <Text style={styles.categoryBtn}>Finance</Text>
                     <Text style={styles.categoryBtn}>Politics</Text>
                     <Text style={styles.categoryBtn}>Programming</Text>
@@ -55,14 +53,13 @@ const HomePage = () => {
                 {/* Articles */}
                 <View className="flex">
                     <View className="mb-4">
-                        {/* <ArticleCard /> */}
                     </View>
                     <View className="mb-4">
                         {/* <ArticleCard /> */}
                     </View>
                 </View>
             </ScrollView>
-        </View>
+        </SafeAreaView>
     )
 }
 

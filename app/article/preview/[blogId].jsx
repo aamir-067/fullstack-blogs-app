@@ -29,7 +29,7 @@ const ArticlePreview = () => {
 							uri: "https://www.geosuper.tv/assets/uploads/updates/2022-11-20/20187_400599_updates.jpg",
 						}}
 					/>
-					<View onTouchEnd={() => router.navigate("/")} className="mt-10 h-6 w-16 absolute top-0 left-2 flex flex-row justify-evenly items-center">
+					<View onTouchEnd={() => router.navigate("/")} className="h-6 w-16 absolute top-0 left-2 flex flex-row justify-evenly items-center">
 						<Image
 							className="w-4 aspect-square"
 							source={{

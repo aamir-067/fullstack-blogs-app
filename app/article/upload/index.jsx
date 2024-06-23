@@ -28,7 +28,7 @@ const Upload = () => {
         <ScrollView showsVerticalScrollIndicator={false}>
             <View className="min-h-screen">
                 {/* back button */}
-                <View onTouchEnd={() => router.navigate("/")} className="mt-12 h-6 w-16 flex flex-row justify-evenly items-center">
+                <View onTouchEnd={() => router.navigate("/")} className="h-6 w-16 flex flex-row justify-evenly items-center">
                     <Image
                         className="w-4 aspect-square"
                         source={{

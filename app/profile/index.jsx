@@ -43,7 +43,7 @@ const Profile = () => {
                 <ScrollView showsVerticalScrollIndicator={false}>
 
                     {/* nav btns */}
-                    <View className="flex flex-row justify-between mt-10">
+                    <View className="flex flex-row justify-between">
                         <View onTouchEnd={() => router.navigate("/")} className="h-6 w-16 flex flex-row justify-evenly items-center">
                             <Image
                                 className="w-4 aspect-square"
