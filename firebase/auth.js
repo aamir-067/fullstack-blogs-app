@@ -7,7 +7,7 @@ import {
     signInWithPopup,
 } from "firebase/auth";
 import { router } from 'expo-router';
-import { getJson, storeJson } from "../utils/asyncStorage.js";
+import { getJson, storeJson, storeString } from "../utils/asyncStorage.js";
 import { app } from "./firebase.config";
 import { addUser, getUserById } from "./firestore/user.controllers.js";
 
@@ -46,7 +46,7 @@ export const signInUserWithEmail = async ({ email, pass }) => {
     const user = userCredential.user;
     if (user) {
         const details = await getUserById(user.uid);
-        await storeJson("userDetails", details);
+        await storeString("userDetails", details.email);
         router.navigate("/");
     }
 }

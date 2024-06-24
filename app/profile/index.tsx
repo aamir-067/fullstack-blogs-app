@@ -3,28 +3,51 @@ import React, { useEffect, useState } from 'react'
 import { Link, router } from 'expo-router'
 import { Button } from 'native-base'
 import ArticleCard from '../../components/ArticleCard/ArticleCard'
-import { getJson, storeJson } from "../../utils/asyncStorage.js"
-import { signOutUser } from '../../firebase/auth.js'
-import { getUserByEmail, getUserUploadedBlogs } from '../../firebase/firestore/user.controllers.js'
+import { getString, storeString } from "../../utils/asyncStorage"
+import { signOutUser } from '../../firebase/auth'
+import { getUserByEmail, getUserUploadedBlogs } from '../../firebase/firestore/user.controllers'
+import { store } from '../../store/store'
+import { useSelector } from 'react-redux'
 
+
+interface userDetails {
+    uid: string,
+    name: string,
+    image: string,
+    password: string,
+    email: string
+}
 const Profile = () => {
     const [userDetails, setUserDetails] = useState(undefined);
     const [userUploadedBlogs, setUserUploadedBlogs] = useState([[], []]);
 
 
+
     useEffect(() => {
+        const user = store.getState().userDetails;
+        setUserDetails(user);
+
         (async () => {
-            const useData = await getJson("userDetails");
-            if (useData) {
-                // fetch the latest data and then store it in localStorage and update it in UI.
-                try {
-                    const latestUserDetails = await getUserByEmail(useData.email);
-                    await storeJson("userDetails", latestUserDetails);
-                    setUserDetails(latestUserDetails);
-                    const [allBlogs, blogsIndexes] = await getUserUploadedBlogs();
-                    setUserUploadedBlogs([allBlogs, blogsIndexes]);
-                } catch (error) {
-                    console.log("error in fetching the user profile results.", error);
+            if (!userDetails) {
+                const userEmail = await getString("userDetails");
+                if (userEmail) {
+                    // fetch the latest data and then store it in localStorage and update it in UI.
+                    try {
+                        const latestUserDetails: userDetails = await getUserByEmail(userEmail);
+                        console.log("latest user Details : ", latestUserDetails);
+                        const userDetails = {
+                            id: latestUserDetails?.uid,
+                            name: latestUserDetails?.name,
+                            email: latestUserDetails.email,
+                            avatar: latestUserDetails?.image,
+
+                        }
+                        store.dispatch(setUserDetails(userDetails));
+                        // const [allBlogs, blogsIndexes] = await getUserUploadedBlogs();
+                        // setUserUploadedBlogs([allBlogs, blogsIndexes]);
+                    } catch (error) {
+                        console.log("error in fetching the user profile results.", error);
+                    }
                 }
             }
         })()
@@ -64,11 +87,11 @@ const Profile = () => {
 
                     {/* if logged in */}
                     {
-                        userDetails ? <View>
+                        userDetails?.id ? <View>
                             {/* avatar */}
                             <View className="h-30 mt-16 flex items-center">
                                 <View className=" border-4 border-white w-28 aspect-square rounded-full overflow-hidden">
-                                    <Image className="w-full h-full" source={{ uri: userDetails?.image }} />
+                                    <Image className="w-full h-full" source={{ uri: userDetails?.avatar }} />
                                 </View>
                             </View>
 

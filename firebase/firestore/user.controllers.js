@@ -41,6 +41,7 @@ export const getUserByEmail = async (email) => {
                 myUser = { uid: doc.id, ...doc.data() }
             }
         });
+        console.log("get User By Email : ", myUser);
         return myUser;
     } catch (error) {
         console.log(error);

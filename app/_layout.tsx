@@ -1,14 +1,17 @@
-import { SafeAreaView, View } from 'react-native';
+import { SafeAreaView, View, StatusBar } from 'react-native';
 import Footer from "../components/Footer/Footer";
 import { useFonts } from "expo-font";
 import * as SplashScreen from 'expo-splash-screen';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { NativeBaseProvider } from "native-base";
 import { Slot } from 'expo-router';
 import { store } from '../store/store';
 import { Provider } from 'react-redux';
+
+SplashScreen.preventAutoHideAsync();
+
 export default function App() {
-  const [loaded, error] = useFonts({
+  const [fontsLoaded, fontError] = useFonts({
     "rufina-regular": require("../assets/fonts/Rufina-Regular.ttf"),
     "rufina-bold": require("../assets/fonts/Rufina-Bold.ttf"),
     "montserrat-normal": require("../assets/fonts/Montserrat-normal.ttf"),
@@ -20,26 +23,29 @@ export default function App() {
     "montserrat-semibold": require("../assets/fonts/Montserrat-SemiBold.ttf")
   })
 
-  useEffect(() => {
-    if (error) throw error;
-  }, [error]);
 
   useEffect(() => {
-    if (loaded) {
-      SplashScreen.hideAsync();
-    }
-  }, [loaded]);
+    (async () => {
+      if (fontsLoaded || fontError) {
+        await SplashScreen.hideAsync();
+      }
+    })()
+  }, [fontError, fontsLoaded]);
 
-  if (!loaded) {
+  if (!fontsLoaded && !fontError) {
     return null;
   }
 
 
 
+
+
   return (
     <NativeBaseProvider>
+      <StatusBar hidden={true} />
       <SafeAreaView className="">
-        <View className="" style={{ height: "93%" }}>
+
+        <View className="pt-4" style={{ height: "93%" }}>
           <Provider store={store}>
             <Slot />
           </Provider>

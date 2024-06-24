@@ -3,14 +3,12 @@ import React from 'react'
 import { router } from 'expo-router';
 import { store } from '../store/store';
 const HomePage = () => {
-
     const counter = store.getState().counter.value
     console.log(counter);
     return (
         <SafeAreaView className="mx-2">
             <ScrollView showsVerticalScrollIndicator={false}>
                 <Text className="" style={styles.welcomeHeading}>Welcome, 👋</Text>
-
                 <ScrollView horizontal showsHorizontalScrollIndicator={false} className="mt-4 py-4">
                     <Text style={[styles.categoryBtn, styles.selectedCategoryBtn]}> Latest</Text>
                     <Text style={[styles.categoryBtn]}>Technology</Text>
