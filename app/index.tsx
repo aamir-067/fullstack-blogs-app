@@ -1,10 +1,7 @@
 import { ScrollView, StyleSheet, Text, View, Image, Pressable, SafeAreaView } from 'react-native'
 import React from 'react'
 import { router } from 'expo-router';
-import { store } from '../store/store';
 const HomePage = () => {
-    const counter = store.getState().counter.value
-    console.log(counter);
     return (
         <SafeAreaView className="mx-2">
             <ScrollView showsVerticalScrollIndicator={false}>

@@ -7,7 +7,7 @@ import { getString, storeString } from "../../utils/asyncStorage"
 import { signOutUser } from '../../firebase/auth'
 import { getUserByEmail, getUserUploadedBlogs } from '../../firebase/firestore/user.controllers'
 import { store } from '../../store/store'
-import { useSelector } from 'react-redux'
+import { setUserDetails as setUsersDetails } from "../../features/userDetails.reducer";
 
 
 interface userDetails {
@@ -24,25 +24,20 @@ const Profile = () => {
 
 
     useEffect(() => {
-        const user = store.getState().userDetails;
-        setUserDetails(user);
-
         (async () => {
-            if (!userDetails) {
+            const s = store.getState().userDetails;
+            setUserDetails(s);
+            console.log(userDetails?.id);
+
+            if (userDetails?.id.length == 0) {
                 const userEmail = await getString("userDetails");
+                console.log(userEmail);
+
                 if (userEmail) {
                     // fetch the latest data and then store it in localStorage and update it in UI.
                     try {
-                        const latestUserDetails: userDetails = await getUserByEmail(userEmail);
-                        console.log("latest user Details : ", latestUserDetails);
-                        const userDetails = {
-                            id: latestUserDetails?.uid,
-                            name: latestUserDetails?.name,
-                            email: latestUserDetails.email,
-                            avatar: latestUserDetails?.image,
-
-                        }
-                        store.dispatch(setUserDetails(userDetails));
+                        const user = await getUserByEmail(userEmail);
+                        setUserDetails(user)
                         // const [allBlogs, blogsIndexes] = await getUserUploadedBlogs();
                         // setUserUploadedBlogs([allBlogs, blogsIndexes]);
                     } catch (error) {
@@ -52,6 +47,8 @@ const Profile = () => {
             }
         })()
     }, []);
+
+
     return (
         <View className="min-h-screen relative">
 
@@ -79,7 +76,7 @@ const Profile = () => {
                             </Text>
                         </View>
                         {
-                            userDetails && <Pressable onPress={signOutUser}>
+                            userDetails?.id && <Pressable onPress={signOutUser}>
                                 <Text className="text-base" style={{ fontFamily: "montserrat-semibold" }}>logout</Text>
                             </Pressable>
                         }
@@ -91,7 +88,7 @@ const Profile = () => {
                             {/* avatar */}
                             <View className="h-30 mt-16 flex items-center">
                                 <View className=" border-4 border-white w-28 aspect-square rounded-full overflow-hidden">
-                                    <Image className="w-full h-full" source={{ uri: userDetails?.avatar }} />
+                                    <Image className="w-full h-full bg-gray-700" source={{ uri: userDetails?.avatar }} />
                                 </View>
                             </View>
 

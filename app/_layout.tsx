@@ -1,4 +1,4 @@
-import { SafeAreaView, View, StatusBar } from 'react-native';
+import { SafeAreaView, View, StatusBar, LogBox } from 'react-native';
 import Footer from "../components/Footer/Footer";
 import { useFonts } from "expo-font";
 import * as SplashScreen from 'expo-splash-screen';
@@ -7,6 +7,8 @@ import { NativeBaseProvider } from "native-base";
 import { Slot } from 'expo-router';
 import { store } from '../store/store';
 import { Provider } from 'react-redux';
+
+
 
 SplashScreen.preventAutoHideAsync();
 
@@ -38,7 +40,7 @@ export default function App() {
 
 
 
-
+  LogBox.ignoreLogs(["fontFamily"]);
 
   return (
     <NativeBaseProvider>

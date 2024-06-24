@@ -7,9 +7,11 @@ import {
     signInWithPopup,
 } from "firebase/auth";
 import { router } from 'expo-router';
-import { getJson, storeJson, storeString } from "../utils/asyncStorage.js";
+import { getJson, storeJson, getString, storeString } from "../utils/asyncStorage.js";
 import { app } from "./firebase.config";
 import { addUser, getUserById } from "./firestore/user.controllers.js";
+import { store } from "../store/store";
+import { resetUserDetails, setUserDetails } from "../features/userDetails.reducer";
 
 
 export const createEmailAndPassUser = async ({ name, email, password }) => {
@@ -47,18 +49,31 @@ export const signInUserWithEmail = async ({ email, pass }) => {
     if (user) {
         const details = await getUserById(user.uid);
         await storeString("userDetails", details.email);
-        router.navigate("/");
+
+
+        console.log("Login details ====> ", details);
+        const userDetails = {
+            id: user?.uid,
+            name: details?.name,
+            email: details.email,
+            avatar: details?.image,
+        }
+        store.dispatch(setUserDetails(userDetails));
+
     }
+    router.navigate("/profile");
 }
 
 export const signOutUser = async () => {
     const auth = getAuth(app);
     // make sure that user is logged in.
-    const userDetails = await getJson("userDetails");
-    if (userDetails) {
+    const userEmail = await getString("userDetails");
+    if (userEmail) {
         const res = await signOut(auth);
-        await storeJson("userDetails", null);
+        await storeString("userDetails", null);
         router.navigate("/");
+        store.dispatch(resetUserDetails());
+        console.log("Logout Done === ======= =======> ");
         return true;
     }
     // console.log("failed logout");

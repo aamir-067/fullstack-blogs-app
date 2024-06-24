@@ -2,6 +2,8 @@ import { collection, setDoc, getDoc, doc, query, where, getDocs } from "firebase
 import { db } from "../firebase.config.js";
 import { getJson } from "../../utils/asyncStorage.js";
 import { getBlog } from "./blog.controller.js";
+import { setUserDetails as setUsersDetails } from "../../features/userDetails.reducer";
+import { store } from "../../store/store";
 export const addUser = async (uid, { name, email, password, image }) => {
     try {
         const res = await setDoc(doc(db, "Users", uid), {
@@ -41,8 +43,14 @@ export const getUserByEmail = async (email) => {
                 myUser = { uid: doc.id, ...doc.data() }
             }
         });
-        console.log("get User By Email : ", myUser);
-        return myUser;
+        const userDetails = {
+            id: myUser?.uid,
+            name: myUser?.name,
+            email: myUser.email,
+            avatar: myUser?.image,
+        }
+        store.dispatch(setUsersDetails(userDetails));
+        return userDetails;
     } catch (error) {
         console.log(error);
         return null;
