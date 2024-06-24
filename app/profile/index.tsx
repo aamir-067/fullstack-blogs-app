@@ -6,38 +6,39 @@ import ArticleCard from '../../components/ArticleCard/ArticleCard'
 import { getString, storeString } from "../../utils/asyncStorage"
 import { signOutUser } from '../../firebase/auth'
 import { getUserByEmail, getUserUploadedBlogs } from '../../firebase/firestore/user.controllers'
-import { store } from '../../store/store'
-import { setUserDetails as setUsersDetails } from "../../features/userDetails.reducer";
+import { useSelector } from 'react-redux'
 
 
 interface userDetails {
-    uid: string,
+    id: string,
     name: string,
     image: string,
     password: string,
     email: string
 }
+
+interface State {
+    userDetails: userDetails
+}
+
 const Profile = () => {
-    const [userDetails, setUserDetails] = useState(undefined);
     const [userUploadedBlogs, setUserUploadedBlogs] = useState([[], []]);
+
+    const userDetails: userDetails = useSelector((state: State) => state.userDetails);
 
 
 
     useEffect(() => {
         (async () => {
-            const s = store.getState().userDetails;
-            setUserDetails(s);
-            console.log(userDetails?.id);
-
             if (userDetails?.id.length == 0) {
                 const userEmail = await getString("userDetails");
-                console.log(userEmail);
+                // console.log(userEmail);
 
                 if (userEmail) {
                     // fetch the latest data and then store it in localStorage and update it in UI.
                     try {
                         const user = await getUserByEmail(userEmail);
-                        setUserDetails(user)
+                        // setUserDetails(user)
                         // const [allBlogs, blogsIndexes] = await getUserUploadedBlogs();
                         // setUserUploadedBlogs([allBlogs, blogsIndexes]);
                     } catch (error) {
@@ -64,15 +65,15 @@ const Profile = () => {
 
                     {/* nav btns */}
                     <View className="flex flex-row justify-between">
-                        <View onTouchEnd={() => router.navigate("/")} className="h-6 w-16 flex flex-row justify-evenly items-center">
+                        <View onTouchEnd={() => router.navigate("/profile/edit")} className="h-6 w-16 flex flex-row justify-evenly items-center">
                             <Image
-                                className="w-4 aspect-square"
+                                className="w-4 mt-1 aspect-square"
                                 source={{
-                                    uri: "https://static.thenounproject.com/png/517807-200.png",
+                                    uri: "https://static-00.iconduck.com/assets.00/edit-icon-2048x2048-6svwfwto.png",
                                 }}
                             />
                             <Text className="text-base" style={{ fontFamily: "montserrat-semibold" }}>
-                                Back
+                                Edit
                             </Text>
                         </View>
                         {
@@ -97,7 +98,7 @@ const Profile = () => {
                                 <Text className="text-base" style={{ fontFamily: "montserrat-semibold" }}>{userDetails?.name}</Text>
                                 <Text className="text-xs" style={{ fontFamily: "montserrat-regular" }}>{userDetails?.email}</Text>
                             </View>
-
+                            <Link href={"/profile/edit"}>Edit Profile</Link>
                             {/* uploaded articles */}
                             <Text className="mt-10" style={{ fontFamily: "rufina-regular", fontSize: 24 }}>
                                 Uploaded Blogs
