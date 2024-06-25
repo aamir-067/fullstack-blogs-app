@@ -47,7 +47,7 @@ export default function App() {
       <StatusBar hidden={true} />
       <SafeAreaView className="">
 
-        <View className="pt-4" style={{ height: "93%" }}>
+        <View className="" style={{ height: "93%" }}>
           <Provider store={store}>
             <Slot />
           </Provider>

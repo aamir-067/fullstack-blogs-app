@@ -3,6 +3,9 @@ import React from 'react'
 
 const ArticleCard = ({ blog, owner } = { blog: {}, owner: {} }) => {
 
+
+
+
     return (
         <View>
             <View className="h-[72px] w-full flex flex-row justify-between">
@@ -13,7 +16,7 @@ const ArticleCard = ({ blog, owner } = { blog: {}, owner: {} }) => {
 
                     <View className="flex">
                         <View className="flex flex-row gap-2 items-center">
-                            <Image className="w-6 h-6 rounded-full" source={{ uri: owner.image ? owner.image : "https://plus.unsplash.com/premium_photo-1681492405224-b787ee736768?q=80&w=3270&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" }} />
+                            <Image className="w-6 h-6 rounded-full" source={{ uri: owner.avatar ? owner.avatar : "https://plus.unsplash.com/premium_photo-1681492405224-b787ee736768?q=80&w=3270&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" }} />
                             <Text className="text-sm" style={{ fontFamily: "montserrat-regular" }}>{owner.name ? owner.name : "Nicolas johns."}</Text>
                         </View>
                         <Text className="text-2xl" style={{ fontFamily: "rufina-bold" }}>{blog.title ? blog.title : "Heading of article"}</Text>

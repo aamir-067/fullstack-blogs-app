@@ -16,3 +16,8 @@ export const getBlog = async (uid) => {
         console.log("Error fetching blog details", error);
     }
 }
+
+
+export const getOwnerOfBlog = async (blogId) => {
+
+}

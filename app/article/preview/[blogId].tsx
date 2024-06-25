@@ -1,79 +1,94 @@
 import { StyleSheet, Text, View, Image, ScrollView } from "react-native";
 import { useLocalSearchParams } from 'expo-router';
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, router } from "expo-router";
+import { getBlog } from "../../../firebase/firestore/blog.controller";
 
 const ArticlePreview = () => {
-
+	const [blog, setBlog] = useState(undefined);
 	const { blogId } = useLocalSearchParams();
 
 
-	//TODO: fetch the results opf the blog whose id is blogId and update the result in UI
+	//TODO: fetch the results of the blog whose id is blogId and update the result in UI
 
 
 	console.log("Blog Id which you visited : ", blogId);
 
+	useEffect(() => {
+		(async () => {
+			const result = await getBlog(blogId);
+			console.log("results of blog fetch", result);
+			setBlog(result)
+
+		})()
+	}, [])
+
+
+
 	return (
 		<ScrollView>
-			<View className="min-h-screen">
-				<View
-					className="h-2/6 relative overflow-hidden"
-					style={{
-						borderBottomLeftRadius: 15,
-						borderBottomRightRadius: 15,
-					}}
-				>
-					<Image
-						className="w-full h-full"
-						source={{
-							uri: "https://www.geosuper.tv/assets/uploads/updates/2022-11-20/20187_400599_updates.jpg",
-						}}
-					/>
-
-				</View>
-
-				{/* below picture area */}
-				<View className="mx-2">
-					{/* title */}
-					<Text
-						className="text-2xl mt-10"
-						style={{ fontFamily: "rufina-bold" }}
-					>
-						How the Politicle parties effect the price of BTC.
-					</Text>
-
-					{/* author and date */}
-					<View className="w-full flex flex-row justify-between items-center mt-6">
-						<View className="flex flex-row">
-							<Text
-								className="text-sm"
-								style={{ fontFamily: "montserrat-light" }}
-							>
-								written by
-							</Text>
-							<Text
-								className="text-sm"
-								style={{ fontFamily: "montserrat-bold" }}
-							>
-								{" "}
-								Jack Richer
-							</Text>
-						</View>
-						<Text
-							className="text-sm"
-							style={{ fontFamily: "montserrat-light" }}
+			{
+				!blog ?
+					<Text>Loading</Text> :
+					<View className="min-h-screen">
+						<View
+							className="h-2/6 relative overflow-hidden"
+							style={{
+								borderBottomLeftRadius: 15,
+								borderBottomRightRadius: 15,
+							}}
 						>
-							14 MAR 2024
-						</Text>
-					</View>
-					{/* line */}
-					<View className="w-full border-b-2 mt-2 border-gray-200"></View>
+							<Image
+								className="w-full h-full"
+								source={{
+									uri: blog?.image ? blog.image : "https://www.geosuper.tv/assets/uploads/updates/2022-11-20/20187_400599_updates.jpg",
+								}}
+							/>
 
-					<Text
-						className="mt-8 text-sm"
-						style={{ fontFamily: "montserrat-regular" }}
-					>
-						Lorem ipsum dolor sit amet consectetur adipisicing elit.
+						</View>
+
+						{/* below picture area */}
+						<View className="mx-2">
+							{/* title */}
+							<Text
+								className="text-2xl mt-10"
+								style={{ fontFamily: "rufina-bold" }}
+							>
+								{blog?.title ? blog.title : "How the Politicle parties effect the price of BTC."}
+							</Text>
+
+							{/* author and date */}
+							<View className="w-full flex flex-row justify-between items-center mt-6">
+								<View className="flex flex-row">
+									<Text
+										className="text-sm"
+										style={{ fontFamily: "montserrat-light" }}
+									>
+										written by
+									</Text>
+									<Text
+										className="text-sm"
+										style={{ fontFamily: "montserrat-bold" }}
+									>
+										{" "}
+										Jack Richer
+									</Text>
+								</View>
+								<Text
+									className="text-sm"
+									style={{ fontFamily: "montserrat-light" }}
+								>
+									{blog?.time ? blog.time : 0} mins read
+								</Text>
+							</View>
+							{/* line */}
+							<View className="w-full border-b-2 mt-2 border-gray-200"></View>
+
+							<Text
+								className="mt-8 text-sm"
+								style={{ fontFamily: "montserrat-regular" }}
+							>
+								{blog?.content ? blog.content : `Lorem ipsum dolor sit amet consectetur adipisicing elit.
 						Maiores delectus provident suscipit architecto molestiae
 						deserunt in? Earum, itaque. Nostrum amet quo voluptas
 						eligendi aspernatur deleniti officia, nulla veritatis
@@ -90,10 +105,11 @@ const ArticlePreview = () => {
 						consectetur adipisicing elit. Quisquam fugit ad cum
 						ipsum. Quasi reprehenderit voluptates non architecto
 						aperiam facilis. Enim possimus reiciendis aliquid
-						provident. Omnis ratione laboriosam similique veniam.
-					</Text>
-				</View>
-			</View>
+						provident. Omnis ratione laboriosam similique veniam.`}
+							</Text>
+						</View>
+					</View>
+			}
 		</ScrollView>
 	);
 };

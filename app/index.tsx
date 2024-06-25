@@ -3,7 +3,7 @@ import React from 'react'
 import { router } from 'expo-router';
 const HomePage = () => {
     return (
-        <SafeAreaView className="mx-2">
+        <SafeAreaView className="mx-2 mt-4">
             <ScrollView showsVerticalScrollIndicator={false}>
                 <Text className="" style={styles.welcomeHeading}>Welcome, 👋</Text>
                 <ScrollView horizontal showsHorizontalScrollIndicator={false} className="mt-4 py-4">
@@ -19,7 +19,7 @@ const HomePage = () => {
 
                 {/* image and the top article */}
 
-                <Pressable onPress={() => router.navigate("/article/preview/tempIdOfBlog")}>
+                <Pressable>
                     <View className="w-full aspect-[4/3] mt-6 relative bg-red-400">
                         <Image className="w-full h-full" source={{ uri: "https://plus.unsplash.com/premium_photo-1681492405224-b787ee736768?q=80&w=3270&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" }} />
 

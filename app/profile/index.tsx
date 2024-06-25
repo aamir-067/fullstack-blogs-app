@@ -7,7 +7,7 @@ import { getString, storeString } from "../../utils/asyncStorage"
 import { signOutUser } from '../../firebase/auth'
 import { getUserByEmail, getUserUploadedBlogs } from '../../firebase/firestore/user.controllers'
 import { useSelector } from 'react-redux'
-
+import { BlogsDetails } from "../../features/blogsDetails.reducer"
 
 interface userDetails {
     id: string,
@@ -19,31 +19,25 @@ interface userDetails {
 
 interface State {
     userDetails: userDetails
+    blogsDetails: BlogsDetails
 }
 
 const Profile = () => {
-    const [userUploadedBlogs, setUserUploadedBlogs] = useState([[], []]);
-
-    const userDetails: userDetails = useSelector((state: State) => state.userDetails);
-
-
+    const userDetails = useSelector((state: State) => state.userDetails);
+    const userBlogs = useSelector((state: State) => state.blogsDetails.userBlogs);
 
     useEffect(() => {
         (async () => {
-            if (userDetails?.id.length == 0) {
-                const userEmail = await getString("userDetails");
-                // console.log(userEmail);
+            const userEmail = await getString("userDetails");
+            console.log(userEmail);
 
-                if (userEmail) {
-                    // fetch the latest data and then store it in localStorage and update it in UI.
-                    try {
-                        const user = await getUserByEmail(userEmail);
-                        // setUserDetails(user)
-                        // const [allBlogs, blogsIndexes] = await getUserUploadedBlogs();
-                        // setUserUploadedBlogs([allBlogs, blogsIndexes]);
-                    } catch (error) {
-                        console.log("error in fetching the user profile results.", error);
-                    }
+            if (userEmail && userDetails?.id.length == 0) {
+                try {
+                    await getUserByEmail(userEmail);
+                    await getUserUploadedBlogs(userEmail);
+                } catch (error) {
+
+                    console.log("error in fetching the user profile results.", error);
                 }
             }
         })()
@@ -60,22 +54,26 @@ const Profile = () => {
             </View>
 
             {/* content */}
-            <View className="px-2 z-10 w-full h-full absolute">
+            <View className="px-2 z-10 w-full h-full absolute mt-2">
                 <ScrollView showsVerticalScrollIndicator={false}>
-
                     {/* nav btns */}
+                    <Button onPress={() => getUserUploadedBlogs("khandj067@gmail.com")}>Click</Button>
                     <View className="flex flex-row justify-between">
-                        <View onTouchEnd={() => router.navigate("/profile/edit")} className="h-6 w-16 flex flex-row justify-evenly items-center">
-                            <Image
-                                className="w-4 mt-1 aspect-square"
-                                source={{
-                                    uri: "https://static-00.iconduck.com/assets.00/edit-icon-2048x2048-6svwfwto.png",
-                                }}
-                            />
-                            <Text className="text-base" style={{ fontFamily: "montserrat-semibold" }}>
-                                Edit
-                            </Text>
-                        </View>
+                        {
+                            userDetails?.id && (
+                                <View onTouchEnd={() => router.navigate("/profile/edit")} className="h-6 w-16 flex flex-row justify-evenly items-center">
+                                    <Image
+                                        className="w-4 mt-1 aspect-square"
+                                        source={{
+                                            uri: "https://static-00.iconduck.com/assets.00/edit-icon-2048x2048-6svwfwto.png",
+                                        }}
+                                    />
+                                    <Text className="text-base" style={{ fontFamily: "montserrat-semibold" }}>
+                                        Edit
+                                    </Text>
+                                </View>
+                            )
+                        }
                         {
                             userDetails?.id && <Pressable onPress={signOutUser}>
                                 <Text className="text-base" style={{ fontFamily: "montserrat-semibold" }}>logout</Text>
@@ -98,7 +96,6 @@ const Profile = () => {
                                 <Text className="text-base" style={{ fontFamily: "montserrat-semibold" }}>{userDetails?.name}</Text>
                                 <Text className="text-xs" style={{ fontFamily: "montserrat-regular" }}>{userDetails?.email}</Text>
                             </View>
-                            <Link href={"/profile/edit"}>Edit Profile</Link>
                             {/* uploaded articles */}
                             <Text className="mt-10" style={{ fontFamily: "rufina-regular", fontSize: 24 }}>
                                 Uploaded Blogs
@@ -111,8 +108,8 @@ const Profile = () => {
                             {/* Articles */}
                             <View className="flex">
                                 {
-                                    userUploadedBlogs[0].map((blog, index) => {
-                                        return <View onTouchEnd={() => router.navigate(`/article/preview/${userUploadedBlogs[1][index]}`)} key={index} className="mb-4">
+                                    userBlogs.details.map((blog, index) => {
+                                        return <View onTouchEnd={() => router.navigate(`/article/preview/${userBlogs.ids[index]}`)} key={index} className="mb-4">
 
                                             <ArticleCard blog={blog} owner={userDetails} />
 
