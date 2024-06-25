@@ -1,40 +1,49 @@
-// import { createSlice } from "@reduxjs/toolkit";
-// import type { PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
+import type { PayloadAction } from "@reduxjs/toolkit";
+interface Blog {
+	content: string;
+	image: string;
+	title: string;
+	time: number;
+}
 
-// interface userDetailsState {
-// 	id: string;
-// 	name: string;
-// 	email: string;
-// 	avatar: string;
-// }
+export interface BlogsDetails {
+	allBlogs: {
+		details: Array<Blog>;
+		ids: Array<string>;
+	};
+	userBlogs: {
+		details: Array<Blog>;
+		ids: Array<string>;
+	};
+}
 
-// const initialState: userDetailsState = {
-// 	id: "",
-// 	name: "",
-// 	email: "",
-// 	avatar: "",
-// };
+const initialState: BlogsDetails = {
+	allBlogs: {
+		details: [],
+		ids: [],
+	},
+	userBlogs: {
+		details: [],
+		ids: [],
+	},
+};
 
-// export const userDetailsSlice = createSlice({
-// 	name: "userDetails",
-// 	initialState,
-// 	reducers: {
-// 		setUserDetails: (state, action: PayloadAction<userDetailsState>) => {
-// 			state.id = action.payload.id;
-// 			state.name = action.payload.name;
-// 			state.email = action.payload.email;
-// 			state.avatar = action.payload.avatar;
-// 		},
-// 		resetUserDetails: (state) => {
-// 			state.id = "";
-// 			state.name = "";
-// 			state.email = "";
-// 			state.avatar = "";
-// 		},
-// 	},
-// });
+export const blogsSlice = createSlice({
+	name: "userDetails",
+	initialState,
+	reducers: {
+		setBlogs: (state, action: PayloadAction<InitialState>) => {
+			state.allBlogs = action.payload.allBlogs;
+			state.userBlogs = action.payload.userBlogs;
+		},
+		resetBlogs: (state) => {
+			state = initialState;
+		},
+	},
+});
 
-// // Action creators are generated for each case reducer function
-// export const { setUserDetails, resetUserDetails } = userDetailsSlice.actions;
+// Action creators are generated for each case reducer function
+export const { setBlogs, resetBlogs } = blogsSlice.actions;
 
-// export default userDetailsSlice.reducer;
+export default blogsSlice.reducer;
