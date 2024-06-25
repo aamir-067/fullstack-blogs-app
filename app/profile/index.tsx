@@ -23,11 +23,13 @@ interface State {
 }
 
 const Profile = () => {
+    const [loading, setLoading] = useState(false);
     const userDetails = useSelector((state: State) => state.userDetails);
     const userBlogs = useSelector((state: State) => state.blogsDetails.userBlogs);
 
     useEffect(() => {
         (async () => {
+            setLoading(true);
             const userEmail = await getString("userDetails");
             console.log(userEmail);
 
@@ -40,6 +42,7 @@ const Profile = () => {
                     console.log("error in fetching the user profile results.", error);
                 }
             }
+            setLoading(false);
         })()
     }, []);
 
@@ -54,85 +57,89 @@ const Profile = () => {
             </View>
 
             {/* content */}
+
             <View className="px-2 z-10 w-full h-full absolute mt-2">
-                <ScrollView showsVerticalScrollIndicator={false}>
-                    {/* nav btns */}
-                    <Button onPress={() => getUserUploadedBlogs("khandj067@gmail.com")}>Click</Button>
-                    <View className="flex flex-row justify-between">
-                        {
-                            userDetails?.id && (
-                                <View onTouchEnd={() => router.navigate("/profile/edit")} className="h-6 w-16 flex flex-row justify-evenly items-center">
-                                    <Image
-                                        className="w-4 mt-1 aspect-square"
-                                        source={{
-                                            uri: "https://static-00.iconduck.com/assets.00/edit-icon-2048x2048-6svwfwto.png",
-                                        }}
-                                    />
-                                    <Text className="text-base" style={{ fontFamily: "montserrat-semibold" }}>
-                                        Edit
-                                    </Text>
-                                </View>
-                            )
-                        }
-                        {
-                            userDetails?.id && <Pressable onPress={signOutUser}>
-                                <Text className="text-base" style={{ fontFamily: "montserrat-semibold" }}>logout</Text>
-                            </Pressable>
-                        }
-                    </View>
-
-                    {/* if logged in */}
-                    {
-                        userDetails?.id ? <View>
-                            {/* avatar */}
-                            <View className="h-30 mt-16 flex items-center">
-                                <View className=" border-4 border-white w-28 aspect-square rounded-full overflow-hidden">
-                                    <Image className="w-full h-full bg-gray-700" source={{ uri: userDetails?.avatar }} />
-                                </View>
-                            </View>
-
-                            {/* name and mail */}
-                            <View className="mt-2 flex items-center">
-                                <Text className="text-base" style={{ fontFamily: "montserrat-semibold" }}>{userDetails?.name}</Text>
-                                <Text className="text-xs" style={{ fontFamily: "montserrat-regular" }}>{userDetails?.email}</Text>
-                            </View>
-                            {/* uploaded articles */}
-                            <Text className="mt-10" style={{ fontFamily: "rufina-regular", fontSize: 24 }}>
-                                Uploaded Blogs
-                            </Text>
-
-                            {/* line */}
-                            <View className="w-full border-b-2 mt-2 mb-10 border-gray-200"></View>
-
-
-                            {/* Articles */}
-                            <View className="flex">
+                {
+                    loading ? <Text>Loading...</Text> : (
+                        <ScrollView showsVerticalScrollIndicator={false}>
+                            {/* nav btns */}
+                            <View className="flex flex-row justify-between">
                                 {
-                                    userBlogs.details.map((blog, index) => {
-                                        return <View onTouchEnd={() => router.navigate(`/article/preview/${userBlogs.ids[index]}`)} key={index} className="mb-4">
-
-                                            <ArticleCard blog={blog} owner={userDetails} />
-
+                                    userDetails?.id && (
+                                        <View onTouchEnd={() => router.navigate("/profile/edit")} className="h-6 w-16 flex flex-row justify-evenly items-center">
+                                            <Image
+                                                className="w-4 mt-1 aspect-square"
+                                                source={{
+                                                    uri: "https://static-00.iconduck.com/assets.00/edit-icon-2048x2048-6svwfwto.png",
+                                                }}
+                                            />
+                                            <Text className="text-base" style={{ fontFamily: "montserrat-semibold" }}>
+                                                Edit
+                                            </Text>
                                         </View>
-                                    })
+                                    )
                                 }
-
+                                {
+                                    userDetails?.id && <Pressable onPress={signOutUser}>
+                                        <Text className="text-base" style={{ fontFamily: "montserrat-semibold" }}>logout</Text>
+                                    </Pressable>
+                                }
                             </View>
-                        </View> :
-                            // when its logged out
-                            <View View className="mt-60">
-                                <Text className="text-center text-lg mb-5" style={{ fontFamily: "montserrat-bold" }}>Don't have an account ?</Text>
 
-                                <Button bgColor={"#C3D8B3"}>
-                                    <Link href={"/user/register"}>
-                                        <Text className="text-center text-lg" style={{ fontFamily: "montserrat-bold" }}>Get Started</Text>
-                                    </Link>
-                                </Button>
-                            </View>
-                    }
+                            {/* if logged in */}
+                            {
+                                userDetails?.id ? <View>
+                                    {/* avatar */}
+                                    <View className="h-30 mt-16 flex items-center">
+                                        <View className=" border-4 border-white w-28 aspect-square rounded-full overflow-hidden">
+                                            <Image className="w-full h-full bg-gray-700" source={{ uri: userDetails?.avatar }} />
+                                        </View>
+                                    </View>
+
+                                    {/* name and mail */}
+                                    <View className="mt-2 flex items-center">
+                                        <Text className="text-base" style={{ fontFamily: "montserrat-semibold" }}>{userDetails?.name}</Text>
+                                        <Text className="text-xs" style={{ fontFamily: "montserrat-regular" }}>{userDetails?.email}</Text>
+                                    </View>
+                                    {/* uploaded articles */}
+                                    <Text className="mt-10" style={{ fontFamily: "rufina-regular", fontSize: 24 }}>
+                                        Uploaded Blogs
+                                    </Text>
+
+                                    {/* line */}
+                                    <View className="w-full border-b-2 mt-2 mb-10 border-gray-200"></View>
 
 
-                </ScrollView>
+                                    {/* Articles */}
+                                    <View className="flex">
+                                        {
+                                            userBlogs.details.map((blog, index) => {
+                                                return <View onTouchEnd={() => router.navigate(`/article/preview/${userBlogs.ids[index]}`)} key={index} className="mb-4">
+
+                                                    <ArticleCard blog={blog} owner={userDetails} />
+
+                                                </View>
+                                            })
+                                        }
+
+                                    </View>
+                                </View> :
+                                    // when its logged out
+                                    <View View className="mt-60">
+                                        <Text className="text-center text-lg mb-5" style={{ fontFamily: "montserrat-bold" }}>Don't have an account ?</Text>
+
+                                        <Button bgColor={"#C3D8B3"}>
+                                            <Link href={"/user/register"}>
+                                                <Text className="text-center text-lg" style={{ fontFamily: "montserrat-bold" }}>Get Started</Text>
+                                            </Link>
+                                        </Button>
+                                    </View>
+                            }
+
+
+                        </ScrollView>
+                    )
+                }
             </View >
         </View >
 
