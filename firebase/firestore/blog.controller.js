@@ -1,5 +1,7 @@
-import { getDoc, doc } from "firebase/firestore";
+import { getDoc, doc, collection, query, where, getDocs } from "firebase/firestore";
 import { app, db } from "../firebase.config";
+import { unixTimestampToString } from "../../utils/unixToTime";
+import { getUserById } from "./user.controllers";
 
 export const getBlog = async (uid) => {
     try {
@@ -18,6 +20,24 @@ export const getBlog = async (uid) => {
 }
 
 
-export const getOwnerOfBlog = async (blogId) => {
 
-}
+export const getOwnerOfBlog = async (blogId) => {
+    try {
+        const col = collection(db, "UploadedBlogs");
+        const q = query(col, where("blogId", "==", blogId));
+        const querySnapshot = await getDocs(q);
+        let result;
+        querySnapshot.forEach(doc => {
+            result = doc.data();
+        })
+        const uploadTime = unixTimestampToString(result?.time?.seconds);
+
+        const user = await getUserById(result?.userId);
+
+        return { name: user.name, uploadTime }
+
+    } catch (error) {
+        console.log("Error fetching blog details", error);
+        throw new Error("Error Getting Owner of Blog")
+    }
+} 

@@ -1,14 +1,13 @@
 import { StyleSheet, Text, View, Image, ScrollView, Pressable } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { Link, router } from 'expo-router'
-import { Button } from 'native-base'
+import { Button, Center, VStack, Skeleton, HStack } from 'native-base'
 import ArticleCard from '../../components/ArticleCard/ArticleCard'
 import { getString, storeString } from "../../utils/asyncStorage"
 import { signOutUser } from '../../firebase/auth'
 import { getUserByEmail, getUserUploadedBlogs } from '../../firebase/firestore/user.controllers'
 import { useSelector } from 'react-redux'
 import { BlogsDetails } from "../../features/blogsDetails.reducer"
-
 interface userDetails {
     id: string,
     name: string,
@@ -49,7 +48,6 @@ const Profile = () => {
 
     return (
         <View className="min-h-screen relative">
-
             {/* header container */}
             <View className="w-full h-full flex items-center">
                 <View className="aspect-square z-10 w-full absolute -top-1/4" style={styles.headerContainer}>
@@ -60,7 +58,26 @@ const Profile = () => {
 
             <View className="px-2 z-10 w-full h-full absolute mt-2">
                 {
-                    loading ? <Text>Loading...</Text> : (
+                    !loading ? (
+                        (
+                            <View className="w-full flex flex-col gap-y-6 items-center">
+                                <View className="p-0 mb-24"></View>
+                                <Skeleton borderWidth={1} borderColor="coolGray.200" endColor="warmGray.50" size="32" rounded="full" marginBottom={"-3"} />
+
+                                <View className="flex flex-col gap-2 items-center">
+                                    <Skeleton h={"5"} w={"24"} rounded={"md"} />
+                                    <Skeleton h={"3"} w={"40"} rounded={"md"} />
+                                </View>
+
+
+                                <View className="w-full">
+                                    <Skeleton w="40" rounded="10" />
+                                </View>
+
+                                <Skeleton.Text lines={5} />
+                            </View>
+                        )
+                    ) : (
                         <ScrollView showsVerticalScrollIndicator={false}>
                             {/* nav btns */}
                             <View className="flex flex-row justify-between">

@@ -2,22 +2,18 @@ import { StyleSheet, Text, View, Image, ScrollView } from "react-native";
 import { useLocalSearchParams } from 'expo-router';
 import React, { useEffect, useState } from "react";
 import { Link, router } from "expo-router";
-import { getBlog } from "../../../firebase/firestore/blog.controller";
-
+import { getBlog, getOwnerOfBlog } from "../../../firebase/firestore/blog.controller";
+import { Skeleton, Center, VStack } from "native-base";
 const ArticlePreview = () => {
 	const [blog, setBlog] = useState(undefined);
+	const [ownerDetails, setOwnerDetails] = useState(undefined);
 	const { blogId } = useLocalSearchParams();
-
-
-	//TODO: fetch the results of the blog whose id is blogId and update the result in UI
-
-
-	console.log("Blog Id which you visited : ", blogId);
 
 	useEffect(() => {
 		(async () => {
 			const result = await getBlog(blogId);
-			console.log("results of blog fetch", result);
+			const owner = await getOwnerOfBlog(blogId);
+			setOwnerDetails(owner)
 			setBlog(result)
 
 		})()
@@ -29,7 +25,11 @@ const ArticlePreview = () => {
 		<ScrollView>
 			{
 				!blog ?
-					<Text>Loading</Text> :
+					<View className="min-h-full flex gap-y-8 flex-col">
+						<Skeleton h="72" />
+						<Skeleton px="2" my="0" rounded="md" />
+						<Skeleton.Text lines={5} px="2" />
+					</View> :
 					<View className="min-h-screen">
 						<View
 							className="h-2/6 relative overflow-hidden"
@@ -71,14 +71,14 @@ const ArticlePreview = () => {
 										style={{ fontFamily: "montserrat-bold" }}
 									>
 										{" "}
-										Jack Richer
+										{ownerDetails ? ownerDetails.name : "Jake Reacher"}
 									</Text>
 								</View>
 								<Text
 									className="text-sm"
 									style={{ fontFamily: "montserrat-light" }}
 								>
-									{blog?.time ? blog.time : 0} mins read
+									{ownerDetails ? ownerDetails.uploadTime : "28 AUG 2024"}
 								</Text>
 							</View>
 							{/* line */}

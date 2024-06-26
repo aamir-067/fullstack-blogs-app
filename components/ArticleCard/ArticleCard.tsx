@@ -8,7 +8,7 @@ const ArticleCard = ({ blog, owner } = { blog: {}, owner: {} }) => {
 
     return (
         <View>
-            <View className="h-[72px] w-full flex flex-row justify-between">
+            <View className="h-[72px] w-full flex flex-row justify-evenly">
                 <Image className="aspect-square rounded-lg" source={{ uri: blog.image ? blog.image : "https://images.unsplash.com/photo-1561889758-ab68199043d9?q=80&w=3267&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" }} />
                 {/* // content */}
 
@@ -16,8 +16,8 @@ const ArticleCard = ({ blog, owner } = { blog: {}, owner: {} }) => {
 
                     <View className="flex">
 
-                        <Text className="text-2xl" style={{ fontFamily: "rufina-bold" }}>{blog.title ? blog.title : "Heading of article"}</Text>
-                        <Text className="max-w-[150px] text-gray-400 text-sm pt-1 whitespace-nowrap">{blog?.content && (blog.content.length > 30 ? blog.content.substring(0, 30) : blog.content) + "..."}</Text>
+                        <Text className="text-lg" style={{ fontFamily: "rufina-bold" }}>{blog.title ? blog.title : "Heading of article"}</Text>
+                        <Text className="max-w-[150px] text-gray-400 text-sm pt-1 whitespace-nowrap">{blog?.content && (blog.content.length > 20 ? blog.content.substring(0, 20) : blog.content) + "..."}</Text>
                     </View>
 
 
