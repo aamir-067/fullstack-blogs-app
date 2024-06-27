@@ -8,6 +8,7 @@ import { signOutUser } from '../../firebase/auth'
 import { getUserByEmail, getUserUploadedBlogs } from '../../firebase/firestore/user.controllers'
 import { useSelector } from 'react-redux'
 import { BlogsDetails } from "../../features/blogsDetails.reducer"
+import BlogSkeleton from '../../components/ArticleCard/BlogSkeleton'
 interface userDetails {
     id: string,
     name: string,
@@ -16,7 +17,7 @@ interface userDetails {
     email: string
 }
 
-interface State {
+export interface State {
     userDetails: userDetails
     blogsDetails: BlogsDetails
 }
@@ -46,6 +47,7 @@ const Profile = () => {
     }, []);
 
 
+
     return (
         <View className="min-h-screen relative">
             {/* header container */}
@@ -58,7 +60,7 @@ const Profile = () => {
 
             <View className="px-2 z-10 w-full h-full absolute mt-2">
                 {
-                    !loading ? (
+                    loading ? (
                         (
                             <View className="w-full flex flex-col gap-y-6 items-center">
                                 <View className="p-0 mb-24"></View>

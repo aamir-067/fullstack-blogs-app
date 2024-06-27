@@ -1,7 +1,30 @@
 import { ScrollView, StyleSheet, Text, View, Image, Pressable, SafeAreaView } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { router } from 'expo-router';
+import { Skeleton, VStack } from 'native-base';
+import { getMainBlog } from '../firebase/firestore/blog.controller';
+import { useSelector } from 'react-redux';
+import { State } from './profile';
+import BlogSkeleton from '../components/ArticleCard/BlogSkeleton';
 const HomePage = () => {
+    const topBlog = useSelector((state: State) => state.blogsDetails.topBlog);
+    console.log("top blog is =====> ", topBlog);
+
+    useEffect(() => {
+        (async () => {
+            //TODO: Fix this
+
+            if (!topBlog?.details?.title) {
+                await getMainBlog();
+            }
+
+        })()
+    }, []);
+
+
+
+
+
     return (
         <SafeAreaView className="mx-2 mt-4">
             <ScrollView showsVerticalScrollIndicator={false}>
@@ -17,31 +40,37 @@ const HomePage = () => {
                 {/* line */}
                 <View className="w-full border-b-2 border-gray-200"></View>
 
+
                 {/* image and the top article */}
+                {
+                    topBlog?.details?.title.length ? (
+                        <Pressable>
+                            <View className="w-full aspect-[4/3] mt-6 relative bg-red-400">
+                                <Image className="w-full h-full" source={{ uri: topBlog.details.image }} />
 
-                <Pressable>
-                    <View className="w-full aspect-[4/3] mt-6 relative bg-red-400">
-                        <Image className="w-full h-full" source={{ uri: "https://plus.unsplash.com/premium_photo-1681492405224-b787ee736768?q=80&w=3270&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" }} />
-
-                        {/*Heading and the author of the top article  */}
-                        <View className="absolute bottom-0 left-0 w-full h-20 px-2">
-                            <View className=" w-full rounded-md h-9 flex justify-center items-center" style={styles.blogHeading}>
-                                <Text className=" w-full text-left ml-2 text-lg" style={{ fontFamily: "montserrat-regular" }}>How the political parties are effecting....</Text>
-                            </View>
-                            <View className="flex flex-row justify-end mt-2 items-center">
-                                <View className="flex flex-row gap-2 items-center">
-                                    <Text className="text-sm" style={{ fontFamily: "montserrat-light" }}>Nicolas johns.</Text>
-                                    <Image className="w-6 h-6 rounded-full" source={{ uri: "https://plus.unsplash.com/premium_photo-1681492405224-b787ee736768?q=80&w=3270&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" }} />
+                                {/*Heading and the author of the top article  */}
+                                <View className="absolute bottom-0 left-0 w-full h-20 px-2">
+                                    <View className=" w-full rounded-md h-9 flex justify-center items-center" style={styles.blogHeading}>
+                                        <Text className=" w-full text-left ml-2 text-lg" style={{ fontFamily: "montserrat-regular" }}>{topBlog.details.title}</Text>
+                                    </View>
+                                    <View className="flex flex-row justify-end mt-2 items-center">
+                                        <View className="flex flex-row gap-2 items-center">
+                                            <Text className="text-sm" style={{ fontFamily: "montserrat-light" }}>{topBlog.owner.name}</Text>
+                                            <Image className="w-6 h-6 rounded-full" source={{ uri: topBlog.owner.image }} />
+                                        </View>
+                                    </View>
                                 </View>
                             </View>
-                        </View>
-                    </View>
-                </Pressable>
+                        </Pressable>
+                    ) : (
+                        <Skeleton w={"full"} mt={"6"} h={"56"} />
+                    )
+                }
 
 
                 {/* Top articles */}
                 <Text className=" my-4" style={{ fontFamily: "rufina-regular", fontSize: 28 }}>
-                    Latest From Technology
+                    Latest Blogs
                 </Text>
 
 
@@ -51,6 +80,11 @@ const HomePage = () => {
                     </View>
                     <View className="mb-4">
                         {/* <ArticleCard /> */}
+                        <VStack space={"3"}>
+                            <BlogSkeleton />
+                            <BlogSkeleton />
+                            <BlogSkeleton />
+                        </VStack>
                     </View>
                 </View>
             </ScrollView>

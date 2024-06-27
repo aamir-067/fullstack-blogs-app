@@ -16,6 +16,10 @@ export interface BlogsDetails {
 		details: Array<Blog>;
 		ids: Array<string>;
 	};
+	topBlog: {
+		details: Blog;
+		owner: any;
+	};
 }
 
 const initialState: BlogsDetails = {
@@ -27,15 +31,20 @@ const initialState: BlogsDetails = {
 		details: [],
 		ids: [],
 	},
+	topBlog: {
+		details: null,
+		owner: null,
+	},
 };
 
 export const blogsSlice = createSlice({
 	name: "userDetails",
 	initialState,
 	reducers: {
-		setBlogs: (state, action: PayloadAction<InitialState>) => {
+		setBlogs: (state, action: PayloadAction<BlogsDetails>) => {
 			state.allBlogs = action.payload.allBlogs;
 			state.userBlogs = action.payload.userBlogs;
+			state.topBlog = action.payload.topBlog;
 		},
 		resetBlogs: (state) => {
 			state = initialState;
