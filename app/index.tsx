@@ -2,7 +2,7 @@ import { ScrollView, StyleSheet, Text, View, Image, Pressable, SafeAreaView } fr
 import React, { useEffect, useState } from 'react'
 import { router } from 'expo-router';
 import { Skeleton, VStack } from 'native-base';
-import { getMainBlog } from '../firebase/firestore/blog.controller';
+import { getAllBlogs, getMainBlog } from '../firebase/firestore/blog.controller';
 import { useSelector } from 'react-redux';
 import { State } from './profile';
 import BlogSkeleton from '../components/ArticleCard/BlogSkeleton';
@@ -14,10 +14,10 @@ const HomePage = () => {
         (async () => {
             //TODO: Fix this
 
-            if (!topBlog?.details?.title) {
+            if (!topBlog.details) {
                 await getMainBlog();
             }
-
+            await getAllBlogs();
         })()
     }, []);
 
@@ -44,7 +44,7 @@ const HomePage = () => {
                 {/* image and the top article */}
                 {
                     topBlog?.details?.title.length ? (
-                        <Pressable>
+                        <Pressable onPress={() => router.navigate(`/article/preview/${topBlog.details.id}`)}>
                             <View className="w-full aspect-[4/3] mt-6 relative bg-red-400">
                                 <Image className="w-full h-full" source={{ uri: topBlog.details.image }} />
 

@@ -7,6 +7,10 @@ interface Blog {
 	time: number;
 }
 
+interface TopBlog extends Blog {
+	id: string;
+}
+
 export interface BlogsDetails {
 	allBlogs: {
 		details: Array<Blog>;
@@ -17,7 +21,7 @@ export interface BlogsDetails {
 		ids: Array<string>;
 	};
 	topBlog: {
-		details: Blog;
+		details: TopBlog;
 		owner: any;
 	};
 }

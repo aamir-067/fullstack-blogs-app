@@ -67,7 +67,7 @@ export const getMainBlog = async () => {
 
 
         const prevResponse = store.getState().blogsDetails;
-        store.dispatch(setBlogs({ ...prevResponse, topBlog: { details: blog, owner: blogOwner } }))
+        store.dispatch(setBlogs({ ...prevResponse, topBlog: { details: { ...blog, id: mainBlogId }, owner: blogOwner } }))
         return { blog, blogOwner }
     } catch (error) {
         console.log("Error in getMainBlog:", error);
@@ -80,6 +80,18 @@ export const getMainBlog = async () => {
 export const getAllBlogs = async () => {
     try {
 
+        const col = collection(db, "UploadedBlogs");
+        const q = query(col);
+        const querySnapshot = await getDocs(q);
+        let result = [];
+        querySnapshot.forEach(doc => {
+            result.push(doc.data().blogId);
+        })
+        let blogDetails = [];
+        for (let blogId of result) {
+            const blog = await getBlog(blogId);
+            blogDetails.push(blog);
+        }
     } catch (error) {
 
     }
