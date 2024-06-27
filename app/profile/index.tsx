@@ -133,11 +133,9 @@ const Profile = () => {
                                     <View className="flex">
                                         {
                                             userBlogs.details.map((blog, index) => {
-                                                return <View onTouchEnd={() => router.navigate(`/article/preview/${userBlogs.ids[index]}`)} key={index} className="mb-4">
-
-                                                    <ArticleCard blog={blog} owner={userDetails} />
-
-                                                </View>
+                                                return (
+                                                    <ArticleCard blog={blog} id={userBlogs.ids[index]} key={index} className={"mb-4"} />
+                                                )
                                             })
                                         }
 

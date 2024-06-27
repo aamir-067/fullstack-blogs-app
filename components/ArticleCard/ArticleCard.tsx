@@ -1,13 +1,14 @@
 import { StyleSheet, Text, View, Image } from 'react-native'
 import React from 'react'
+import { router } from 'expo-router'
 
-const ArticleCard = ({ blog, owner } = { blog: {}, owner: {} }) => {
+const ArticleCard = ({ blog, id, className } = { blog: {}, id: "", className: "" }) => {
 
 
     let temp = "lorem ipsum doller emit khan surrani bannu and how crypto currencies effect the politics in the pakistan"
 
     return (
-        <View>
+        <View className={`${className}`} onTouchEnd={() => router.navigate(`/article/preview/${id}`)}>
             <View className="h-[72px] w-full flex flex-row justify-evenly">
                 <Image className="aspect-square rounded-lg" source={{ uri: blog.image ? blog.image : "https://images.unsplash.com/photo-1561889758-ab68199043d9?q=80&w=3267&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" }} />
                 {/* // content */}

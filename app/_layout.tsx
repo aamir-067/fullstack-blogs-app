@@ -41,6 +41,7 @@ export default function App() {
 
 
   LogBox.ignoreLogs(["fontFamily"]);
+  LogBox.ignoreAllLogs(true);
 
   return (
     <NativeBaseProvider>

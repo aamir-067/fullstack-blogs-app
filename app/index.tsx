@@ -6,14 +6,12 @@ import { getAllBlogs, getMainBlog } from '../firebase/firestore/blog.controller'
 import { useSelector } from 'react-redux';
 import { State } from './profile';
 import BlogSkeleton from '../components/ArticleCard/BlogSkeleton';
+import ArticleCard from '../components/ArticleCard/ArticleCard';
 const HomePage = () => {
-    const topBlog = useSelector((state: State) => state.blogsDetails.topBlog);
-    console.log("top blog is =====> ", topBlog);
+    const { topBlog, allBlogs } = useSelector((state: State) => state.blogsDetails);
 
     useEffect(() => {
         (async () => {
-            //TODO: Fix this
-
             if (!topBlog.details) {
                 await getMainBlog();
             }
@@ -79,12 +77,23 @@ const HomePage = () => {
                     <View className="mb-4">
                     </View>
                     <View className="mb-4">
-                        {/* <ArticleCard /> */}
-                        <VStack space={"3"}>
-                            <BlogSkeleton />
-                            <BlogSkeleton />
-                            <BlogSkeleton />
-                        </VStack>
+                        {
+                            allBlogs.ids.length ? (
+                                <View>
+                                    {
+                                        allBlogs.details.map((blog, index) => (
+                                            <ArticleCard blog={blog} id={allBlogs.ids[index]} className='mb-2' key={index} />
+                                        ))
+                                    }
+                                </View>
+                            )
+                                : (<VStack space={"3"}>
+                                    <BlogSkeleton />
+                                    <BlogSkeleton />
+                                    <BlogSkeleton />
+                                </VStack>)
+                        }
+
                     </View>
                 </View>
             </ScrollView>

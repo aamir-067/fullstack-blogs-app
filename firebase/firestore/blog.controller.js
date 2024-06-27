@@ -46,7 +46,6 @@ export const getOwnerOfBlog = async (blogId) => {
 
 export const getMainBlog = async () => {
     try {
-        console.log("Starting getMainBlog");
         const col = collection(db, "Blogs");
         const q = query(col);
         const querySnapshot = await getDocs(q);
@@ -56,14 +55,11 @@ export const getMainBlog = async () => {
         })
         const mainBlogIdIndex = Math.floor(result.length / 2);
         const mainBlogId = result[mainBlogIdIndex];
-        console.log("Main Blog Id:", mainBlogId);
 
         // get the Blog and owner Results.
         const blog = await getBlog(mainBlogId);
-        console.log("Got Blog:", blog);
 
         const blogOwner = await getOwnerOfBlog(mainBlogId);
-        console.log("Got Blog Owner:", blogOwner);
 
 
         const prevResponse = store.getState().blogsDetails;
@@ -79,7 +75,6 @@ export const getMainBlog = async () => {
 
 export const getAllBlogs = async () => {
     try {
-
         const col = collection(db, "UploadedBlogs");
         const q = query(col);
         const querySnapshot = await getDocs(q);
@@ -92,7 +87,11 @@ export const getAllBlogs = async () => {
             const blog = await getBlog(blogId);
             blogDetails.push(blog);
         }
-    } catch (error) {
 
+        const prev = store.getState().blogsDetails;
+        store.dispatch(setBlogs({ ...prev, allBlogs: { details: blogDetails, ids: result } }))
+    } catch (error) {
+        console.log("Error in getAllBlogs:", error);
+        throw new Error("Error in getting All Blogs")
     }
 }
