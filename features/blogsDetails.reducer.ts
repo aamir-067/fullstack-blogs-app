@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-interface Blog {
+export interface Blog {
 	content: string;
 	image: string;
 	title: string;

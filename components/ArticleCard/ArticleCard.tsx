@@ -1,8 +1,16 @@
 import { StyleSheet, Text, View, Image } from 'react-native'
 import React from 'react'
 import { router } from 'expo-router'
+import { Blog } from '../../features/blogsDetails.reducer';
 
-const ArticleCard = ({ blog, id, className } = { blog: {}, id: "", className: "" }) => {
+
+interface Props {
+    className: string | "";
+    id: string | "";
+    blog: Blog
+}
+
+const ArticleCard = ({ blog, id, className }: Props = { blog: undefined, id: "", className: "" }) => {
 
 
     let temp = "lorem ipsum doller emit khan surrani bannu and how crypto currencies effect the politics in the pakistan"
@@ -17,8 +25,8 @@ const ArticleCard = ({ blog, id, className } = { blog: {}, id: "", className: ""
 
                     <View className="flex pl-2 w-9/12">
 
-                        <Text className="text-lg" style={{ fontFamily: "rufina-bold" }}>{blog.title ? (blog.title.length > 35 ? blog.title.substring(0, 35) + " ..." : blog.title) : ""}</Text>
-                        <Text className="max-w-[150px] text-gray-400 text-sm pt-1 whitespace-nowrap">{blog?.content && (blog.content.length > 20 ? blog.content.substring(0, 20) : blog.content) + "..."}</Text>
+                        <Text className="text-md" style={{ fontFamily: "rufina-bold" }}>{blog.title ? (blog.title.length > 45 ? blog.title.substring(0, 45) + " ..." : blog.title) : ""}</Text>
+                        <Text className=" max-w-[180px] text-gray-400 text-sm whitespace-nowrap">{blog?.content && (blog.content.length > 20 ? blog.content.substring(0, 20) : blog.content) + "..."}</Text>
                     </View>
 
 

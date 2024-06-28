@@ -1,36 +1,39 @@
 import { StyleSheet, Text, View, Image, ScrollView } from "react-native";
 import { useLocalSearchParams } from 'expo-router';
 import React, { useEffect, useState } from "react";
-import { Link, router } from "expo-router";
 import { getBlog, getOwnerOfBlog } from "../../../firebase/firestore/blog.controller";
-import { Skeleton, Center, VStack } from "native-base";
+import { Skeleton } from "native-base";
+import { Blog } from "../../../features/blogsDetails.reducer";
+import { DocumentSnapshot, DocumentData } from "firebase/firestore";
 const ArticlePreview = () => {
 	const [blog, setBlog] = useState(undefined);
 	const [ownerDetails, setOwnerDetails] = useState(undefined);
 	const { blogId } = useLocalSearchParams();
 
+
+
 	useEffect(() => {
 		(async () => {
 			const result = await getBlog(blogId);
 			const owner = await getOwnerOfBlog(blogId);
-			setOwnerDetails(owner)
-			setBlog(result)
+			setOwnerDetails(owner);
+			console.log("blog results are ==> ", result);
+			setBlog(result);
 
 		})()
 	}, [])
-
-
 
 	return (
 		<ScrollView>
 			{
 				!blog ?
-					<View className="min-h-full flex gap-y-8 flex-col">
+					<View className="min-h-full b-20 flex gap-y-8 flex-col">
 						<Skeleton h="72" />
 						<Skeleton px="2" my="0" rounded="md" />
 						<Skeleton.Text lines={5} px="2" />
 					</View> :
-					<View className="min-h-screen">
+
+					<View className=" min-h-screen mb-48">
 						<View
 							className="h-2/6 relative overflow-hidden"
 							style={{
@@ -88,24 +91,7 @@ const ArticlePreview = () => {
 								className="mt-8 text-sm"
 								style={{ fontFamily: "montserrat-regular" }}
 							>
-								{blog?.content ? blog.content : `Lorem ipsum dolor sit amet consectetur adipisicing elit.
-						Maiores delectus provident suscipit architecto molestiae
-						deserunt in? Earum, itaque. Nostrum amet quo voluptas
-						eligendi aspernatur deleniti officia, nulla veritatis
-						libero quaerat! Nulla iusto et porro minima omnis quas
-						eaque autem, accusamus natus ipsum facilis earum veniam
-						necessitatibus incidunt illum temporibus explicabo magni
-						tenetur quis non. Officiis dolorum provident quae quasi
-						autem? Dicta aperiam cum, numquam et quod aspernatur
-						illum fugit sequi debitis porro modi impedit soluta sunt
-						ex minus officia iure dignissimos tenetur autem ipsam
-						ratione ipsum laboriosam! Saepe, numquam. Enim explicabo
-						eveniet fugit ipsum fuga totam, atque molestiae
-						voluptatibus eligendi!. Lorem ipsum dolor sit amet
-						consectetur adipisicing elit. Quisquam fugit ad cum
-						ipsum. Quasi reprehenderit voluptates non architecto
-						aperiam facilis. Enim possimus reiciendis aliquid
-						provident. Omnis ratione laboriosam similique veniam.`}
+								{blog?.content ? blog.content : ``}
 							</Text>
 						</View>
 					</View>
