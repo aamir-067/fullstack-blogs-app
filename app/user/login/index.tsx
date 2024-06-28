@@ -6,17 +6,13 @@ import { signInUserWithEmail } from "../../../firebase/auth.js"
 const login = () => {
 
     const [details, setUserDetails] = useState({ email: "", password: "" });
-    const handleInputs = (key, value) => {
+    const handleInputs = (key: string, value: string) => {
         console.log(key, value);
         setUserDetails({
             ...details,
             [key]: value
         });
     };
-
-    useEffect(() => {
-        console.log(details);
-    }, [details]);
 
     return (
         <ScrollView showsVerticalScrollIndicator={false}>

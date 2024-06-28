@@ -1,9 +1,10 @@
-import { getDoc, doc, collection, query, where, getDocs } from "firebase/firestore";
+import { getDoc, doc, collection, query, where, getDocs, addDoc, Timestamp } from "firebase/firestore";
 import { app, db } from "../firebase.config";
 import { unixTimestampToString } from "../../utils/unixToTime";
 import { getUserById } from "./user.controllers";
 import { store } from "../../store/store";
 import { setBlogs } from "../../features/blogsDetails.reducer";
+import { uploadFile } from "../storage/storage";
 
 export const getBlog = async (uid) => {
     try {
@@ -53,7 +54,9 @@ export const getMainBlog = async () => {
         querySnapshot.forEach(doc => {
             result.push(doc.id);
         })
-        const mainBlogIdIndex = Math.floor(result.length / 2);
+
+        const mainBlogIdIndex = Math.floor((Math.random() * result.length));
+        // const mainBlogIdIndex = Math.floor(result.length / 2);
         const mainBlogId = result[mainBlogIdIndex];
 
         // get the Blog and owner Results.
@@ -70,8 +73,6 @@ export const getMainBlog = async () => {
         throw new Error("Error while getting the top Blog");
     }
 }
-
-
 
 export const getAllBlogs = async () => {
     try {
@@ -93,5 +94,34 @@ export const getAllBlogs = async () => {
     } catch (error) {
         console.log("Error in getAllBlogs:", error);
         throw new Error("Error in getting All Blogs")
+    }
+}
+
+
+export const uploadBlog = async ({ title, time, content, image }) => {
+    try {
+        // upload the image.
+        const coverUrl = await uploadFile(image);
+
+        if (!coverUrl) {
+            throw new Error("Error Uploading Image");
+        }
+
+        // upload the blog.
+        const res = await addDoc(collection(db, "Blogs"), {
+            title, time, content, image: coverUrl
+        });
+
+        // Add the blog to the UploadedBlogs collection.
+        const res2 = await addDoc(collection(db, "UploadedBlogs"), {
+            blogId: res.id,
+            userId: store.getState().userDetails.id,
+            time: Timestamp.now()
+        });
+        return true;
+
+    } catch (error) {
+        console.log("Error while blog uploading ==>", error);
+        throw new Error("ERROR in uploading the Blog");
     }
 }

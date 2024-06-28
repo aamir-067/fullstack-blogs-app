@@ -13,7 +13,6 @@ import { addUser, getUserById } from "./firestore/user.controllers.js";
 import { store } from "../store/store";
 import { resetUserDetails, setUserDetails } from "../features/userDetails.reducer";
 
-
 export const createEmailAndPassUser = async ({ name, email, password }) => {
     const auth = getAuth(app);
     [name, email, password].forEach((value) => {
@@ -22,15 +21,14 @@ export const createEmailAndPassUser = async ({ name, email, password }) => {
         }
     });
     try {
+        const dummyPic = "https://firebasestorage.googleapis.com/v0/b/blogs-app-b1036.appspot.com/o/dummyProfile.jpg?alt=media&token=f3f99335-d374-43e6-8fc8-1df80016a50c";
         const response = await createUserWithEmailAndPassword(auth, email, password);
         const userDetails = response.user;
-        const details = await addUser(userDetails.uid, { name, email, password, image: "" });
-        // await storeJson("userDetails", details);
-        router.navigate("/");
-        return details;
+        const details = await addUser(userDetails.uid, { name, email, password, image: dummyPic });
+        await signInUserWithEmail({ email, pass: password });
     } catch (error) {
         console.log(error);
-        return null;
+        return "Error While SignIn";
     }
 }
 
@@ -70,10 +68,9 @@ export const signOutUser = async () => {
     const userEmail = await getString("userDetails");
     if (userEmail) {
         const res = await signOut(auth);
-        await storeString("userDetails", null);
-        router.navigate("/");
+        await storeString("userDetails", "");
         store.dispatch(resetUserDetails());
-        console.log("Logout Done === ======= =======> ");
+        router.navigate("/");
         return true;
     }
     // console.log("failed logout");

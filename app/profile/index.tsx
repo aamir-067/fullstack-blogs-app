@@ -29,20 +29,18 @@ const Profile = () => {
 
     useEffect(() => {
         (async () => {
-            setLoading(true);
             const userEmail = await getString("userDetails");
-            console.log(userEmail);
 
             if (userEmail && userDetails?.id.length == 0) {
+                setLoading(true);
                 try {
                     await getUserByEmail(userEmail);
-                    await getUserUploadedBlogs(userEmail);
                 } catch (error) {
-
                     console.log("error in fetching the user profile results.", error);
                 }
             }
             setLoading(false);
+            await getUserUploadedBlogs();
         })()
     }, []);
 
@@ -62,7 +60,9 @@ const Profile = () => {
                 {
                     loading ? (
                         (
+
                             <View className="w-full flex flex-col gap-y-6 items-center">
+
                                 <View className="p-0 mb-24"></View>
                                 <Skeleton borderWidth={1} borderColor="coolGray.200" endColor="warmGray.50" size="32" rounded="full" marginBottom={"-3"} />
 
@@ -76,7 +76,11 @@ const Profile = () => {
                                     <Skeleton w="40" rounded="10" />
                                 </View>
 
-                                <Skeleton.Text lines={5} />
+                                {/* <Skeleton.Text lines={5} /> */}
+                                <VStack space={"2"}>
+                                    <BlogSkeleton />
+                                    <BlogSkeleton />
+                                </VStack>
                             </View>
                         )
                     ) : (
@@ -134,7 +138,9 @@ const Profile = () => {
                                         {
                                             userBlogs.details.map((blog, index) => {
                                                 return (
-                                                    <ArticleCard blog={blog} id={userBlogs.ids[index]} key={index} className={"mb-4"} />
+                                                    <Pressable key={index}>
+                                                        <ArticleCard blog={blog} id={userBlogs.ids[index]} className={"mb-4"} />
+                                                    </Pressable>
                                                 )
                                             })
                                         }

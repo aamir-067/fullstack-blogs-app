@@ -7,17 +7,28 @@ import { useSelector } from 'react-redux';
 import { State } from './profile';
 import BlogSkeleton from '../components/ArticleCard/BlogSkeleton';
 import ArticleCard from '../components/ArticleCard/ArticleCard';
+import { getString } from '../utils/asyncStorage';
+import { getUserByEmail, getUserUploadedBlogs } from '../firebase/firestore/user.controllers';
 const HomePage = () => {
     const { topBlog, allBlogs } = useSelector((state: State) => state.blogsDetails);
+    const userDetails = useSelector((state: State) => state.userDetails);
 
-    useEffect(() => {
-        (async () => {
-            if (!topBlog.details) {
-                await getMainBlog();
-            }
+    (async () => {
+        // getting the userDetails if its loggedIn already
+        const userEmail = await getString("userDetails");
+        try {
+            await getMainBlog();
             await getAllBlogs();
-        })()
-    }, []);
+            if (userEmail && userDetails?.id.length == 0) {
+                await getUserByEmail(userEmail);
+            }
+            await getUserUploadedBlogs();
+        } catch (error) {
+            console.log("Error while getting the user Details");
+
+        }
+    })()
+
 
 
 
@@ -49,7 +60,7 @@ const HomePage = () => {
                                 {/*Heading and the author of the top article  */}
                                 <View className="absolute bottom-0 left-0 w-full h-20 px-2">
                                     <View className=" w-full rounded-md h-9 flex justify-center items-center" style={styles.blogHeading}>
-                                        <Text className=" w-full text-left ml-2 text-lg" style={{ fontFamily: "montserrat-regular" }}>{topBlog.details.title}</Text>
+                                        <Text className=" w-full text-left ml-2 text-lg" style={{ fontFamily: "montserrat-regular" }}>{topBlog.details.title.length > 35 ? topBlog.details.title.substring(0, 35) + "..." : topBlog.details.title}</Text>
                                     </View>
                                     <View className="flex flex-row justify-end mt-2 items-center">
                                         <View className="flex flex-row gap-2 items-center">
@@ -82,7 +93,9 @@ const HomePage = () => {
                                 <View>
                                     {
                                         allBlogs.details.map((blog, index) => (
-                                            <ArticleCard blog={blog} id={allBlogs.ids[index]} className='mb-2' key={index} />
+                                            <Pressable key={index}>
+                                                <ArticleCard blog={blog} id={allBlogs.ids[index]} className='mb-2' />
+                                            </Pressable>
                                         ))
                                     }
                                 </View>

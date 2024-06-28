@@ -5,18 +5,18 @@ import { Blog } from '../../features/blogsDetails.reducer';
 
 
 interface Props {
-    className: string | "";
-    id: string | "";
+    className: string;
+    id: string;
     blog: Blog
 }
 
-const ArticleCard = ({ blog, id, className }: Props = { blog: undefined, id: "", className: "" }) => {
+const ArticleCard = ({ blog, id, className }: Props) => {
 
 
     let temp = "lorem ipsum doller emit khan surrani bannu and how crypto currencies effect the politics in the pakistan"
 
     return (
-        <View className={`${className}`} onTouchEnd={() => router.navigate(`/article/preview/${id}`)}>
+        <View className={`${className} mb-2`} onTouchEnd={() => router.navigate(`/article/preview/${id}`)}>
             <View className="h-[72px] w-full flex flex-row justify-evenly">
                 <Image className="aspect-square rounded-lg" source={{ uri: blog.image ? blog.image : "https://images.unsplash.com/photo-1561889758-ab68199043d9?q=80&w=3267&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" }} />
                 {/* // content */}
@@ -39,7 +39,7 @@ const ArticleCard = ({ blog, id, className }: Props = { blog: undefined, id: "",
             </View>
 
             {/* line */}
-            <View className="w-full border-b-2 mt-2 border-gray-200"></View>
+            <View className="w-full border-b-2 mt-1 border-gray-200"></View>
         </View>
     )
 }

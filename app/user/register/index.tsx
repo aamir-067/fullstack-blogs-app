@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, ScrollView, Image, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View, ScrollView, Image, TouchableOpacity, Alert } from 'react-native'
 import React, { useEffect } from 'react'
 import { Link, router } from "expo-router";
 import { Button, Input } from "native-base";
@@ -11,12 +11,28 @@ const login = () => {
     })
 
 
-    const handleInputChange = (value, inputName) => {
+    const handleInputChange = (value: string, inputName: string) => {
         setInput({
             ...input,
             [inputName]: value
         })
     }
+
+
+    const signUp = async () => {
+        try {
+            const res = await createEmailAndPassUser({ ...input })
+            if (!res) {
+                Alert.alert("Error", "Error while signUp")
+            }
+        } catch (error) {
+            console.log(error);
+
+            Alert.alert("Error", "Error while signUp");
+        }
+    }
+
+
 
 
     return (
@@ -58,7 +74,7 @@ const login = () => {
 
 
                     <View className="mt-4">
-                        <Button onPress={() => createEmailAndPassUser({ ...input })} bgColor={"#C3D8B3"}>
+                        <Button onPress={() => signUp()} bgColor={"#C3D8B3"}>
                             <Text className="text-lg" style={{ fontFamily: "montserrat-bold" }}>Login</Text>
                         </Button>
                     </View>

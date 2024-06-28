@@ -4,6 +4,7 @@ import { getBlog } from "./blog.controller.js";
 import { setUserDetails as setUsersDetails } from "../../features/userDetails.reducer";
 import { store } from "../../store/store";
 import { setBlogs } from "../../features/blogsDetails.reducer";
+import { getString } from "../../utils/asyncStorage.js";
 export const addUser = async (uid, { name, email, password, image }) => {
     try {
         const res = await setDoc(doc(db, "Users", uid), {
@@ -57,22 +58,8 @@ export const getUserByEmail = async (email) => {
     }
 }
 
-export const uploadBlog = async ({ title, readingTime, content, image }) => {
-    try {
-        [title, readingTime, content, image].forEach((value) => {
-            if (!value) {
-                throw new Error("All fields are required");
-            }
-        });
 
-    } catch (error) {
-        console.log(error);
-        return null;
-    }
-}
-
-
-export const getUserUploadedBlogs = async (email = "") => {
+export const getUserUploadedBlogs = async () => {
     // get the userDetails from localStorage.
     // search for userDetails by email.
     // get the uid.
@@ -80,9 +67,11 @@ export const getUserUploadedBlogs = async (email = "") => {
     // get the blogs from firestore.
     // return it.
     try {
-        console.log("getUserUploadedBlogs started", email);
+        const email = await getString("userDetails");
+        if (!email) {
+            throw new Error("User not found");
+        }
         const userDetailsFromDb = await getUserByEmail(email);
-        console.log("User details from db:", userDetailsFromDb);
         const uid = userDetailsFromDb?.id ? userDetailsFromDb?.id : null;
         if (!uid) {
             throw new Error("User not found");
@@ -93,7 +82,6 @@ export const getUserUploadedBlogs = async (email = "") => {
         querySnapshot.forEach((doc) => {
             uploadedBlogsIds.push(doc.data()?.blogId);
         });
-        console.log("Uploaded blogs ids:", uploadedBlogsIds);
 
         let blogsLength = uploadedBlogsIds.length;
         let blogsDetails = [];
@@ -104,7 +92,6 @@ export const getUserUploadedBlogs = async (email = "") => {
 
         const prevDetails = store.getState().blogsDetails;
         store.dispatch(setBlogs({ ...prevDetails, userBlogs: { details: blogsDetails, ids: uploadedBlogsIds } }));
-        console.log("Blogs details:", blogsDetails);
 
         return [blogsDetails, uploadedBlogsIds];
 
