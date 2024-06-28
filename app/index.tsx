@@ -13,21 +13,25 @@ const HomePage = () => {
     const { topBlog, allBlogs } = useSelector((state: State) => state.blogsDetails);
     const userDetails = useSelector((state: State) => state.userDetails);
 
-    (async () => {
-        // getting the userDetails if its loggedIn already
-        const userEmail = await getString("userDetails");
-        try {
-            await getMainBlog();
-            await getAllBlogs();
-            if (userEmail && userDetails?.id.length == 0) {
-                await getUserByEmail(userEmail);
-            }
-            await getUserUploadedBlogs();
-        } catch (error) {
-            console.log("Error while getting the user Details");
 
-        }
-    })()
+
+    useEffect(() => {
+        (async () => {
+            // getting the userDetails if its loggedIn already
+            const userEmail = await getString("userDetails");
+            try {
+                await getMainBlog();
+                await getAllBlogs();
+                if (userEmail && userDetails?.id.length == 0) {
+                    await getUserByEmail(userEmail);
+                }
+                await getUserUploadedBlogs();
+            } catch (error) {
+                console.log("Error while getting the user Details");
+
+            }
+        })()
+    }, []);
 
 
 
