@@ -1,4 +1,4 @@
-import { getDoc, doc, collection, query, where, getDocs, addDoc, Timestamp } from "firebase/firestore";
+import { getDoc, doc, collection, query, where, getDocs, addDoc, Timestamp, setDoc } from "firebase/firestore";
 import { app, db } from "../firebase.config";
 import { unixTimestampToString } from "../../utils/unixToTime";
 import { getUserById } from "./user.controllers";
@@ -37,7 +37,7 @@ export const getOwnerOfBlog = async (blogId) => {
 
         const user = await getUserById(result?.userId);
 
-        return { name: user.name, uploadTime, image: user.image || user.avatar } // ! fix this
+        return { name: user.name, uploadTime, image: user.image, email: user.email }
 
     } catch (error) {
         console.log("Error fetching blog details", error);
@@ -123,5 +123,36 @@ export const uploadBlog = async ({ title, time, content, image }) => {
     } catch (error) {
         console.log("Error while blog uploading ==>", error);
         throw new Error("ERROR in uploading the Blog");
+    }
+}
+
+
+
+// TODO: fix this 
+// ! ERROR: fix this 
+export const updateBlog = async ({ title, time, content, blogId, image = undefined, prevImageUrl }) => {
+    try {
+
+
+        let coverUrl;
+        if (image) {
+            coverUrl = await uploadFile(image);
+        } else {
+            coverUrl = prevImageUrl;
+        }
+
+
+        if (!coverUrl) {
+            throw new Error("Error Uploading Image");
+        }
+
+        // upload the blog.
+        await setDoc(doc(db, "Blogs", blogId), {
+            title, time, content, image: coverUrl
+        });
+
+        return true;
+    } catch (error) {
+        throw new Error("Something went wrong in updating the blog details.")
     }
 }

@@ -1,24 +1,26 @@
 import { StyleSheet, Text, View, Image, ScrollView } from "react-native";
-import { useLocalSearchParams } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import React, { useEffect, useState } from "react";
 import { getBlog, getOwnerOfBlog } from "../../../firebase/firestore/blog.controller";
 import { Skeleton } from "native-base";
 import { Blog } from "../../../features/blogsDetails.reducer";
 import { DocumentSnapshot, DocumentData } from "firebase/firestore";
+import { useSelector } from "react-redux";
+import { State } from "../../profile";
 const ArticlePreview = () => {
 	const [blog, setBlog] = useState(undefined);
 	const [ownerDetails, setOwnerDetails] = useState(undefined);
 	const { blogId } = useLocalSearchParams();
-
-
+	const [isOwner, setIsOwner] = useState(true);
+	const currentUserEmail = useSelector((state: State) => state.userDetails.email)
 
 	useEffect(() => {
 		(async () => {
 			const result = await getBlog(blogId);
 			const owner = await getOwnerOfBlog(blogId);
 			setOwnerDetails(owner);
-			console.log("blog results are ==> ", result);
 			setBlog(result);
+			setIsOwner(owner.email === currentUserEmail);
 
 		})()
 	}, [])
@@ -34,6 +36,7 @@ const ArticlePreview = () => {
 					</View> :
 
 					<View className=" min-h-screen mb-48">
+
 						<View
 							className="h-2/6 relative overflow-hidden"
 							style={{
@@ -41,6 +44,24 @@ const ArticlePreview = () => {
 								borderBottomRightRadius: 15,
 							}}
 						>
+							{/* nav buttons */}
+							{
+								isOwner && (
+									<View className="absolute top-0 right-0 p-2 z-20">
+										<View onTouchEnd={() => router.navigate(`/article/edit/${blogId}`)} className="h-6 w-16 bg-white rounded-sm flex flex-row justify-evenly items-center">
+											<Image
+												className="w-4 mt-1 aspect-square"
+												source={{
+													uri: "https://static-00.iconduck.com/assets.00/edit-icon-2048x2048-6svwfwto.png",
+												}}
+											/>
+											<Text className="text-base" style={{ fontFamily: "montserrat-semibold" }}>
+												Edit
+											</Text>
+										</View>
+									</View>
+								)
+							}
 							<Image
 								className="w-full h-full"
 								source={{

@@ -13,8 +13,6 @@ const HomePage = () => {
     const { topBlog, allBlogs } = useSelector((state: State) => state.blogsDetails);
     const userDetails = useSelector((state: State) => state.userDetails);
 
-
-
     useEffect(() => {
         (async () => {
             // getting the userDetails if its loggedIn already

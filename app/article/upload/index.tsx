@@ -13,7 +13,7 @@ export interface CoverImage {
     fileName: string
 }
 
-interface BlogText {
+export interface BlogText {
     title: string;
     time: string;
     content: string;

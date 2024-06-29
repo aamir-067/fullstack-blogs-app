@@ -47,7 +47,7 @@ const Profile = () => {
 
 
     return (
-        <View className="min-h-screen relative">
+        <View className="min-h-screen relative pb-14">
             {/* header container */}
             <View className="w-full h-full flex items-center">
                 <View className="aspect-square z-10 w-full absolute -top-1/4" style={styles.headerContainer}>
