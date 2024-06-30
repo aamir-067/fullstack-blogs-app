@@ -64,8 +64,6 @@ const Upload = () => {
         }
     }
 
-
-
     return (
 
         <ScrollView showsVerticalScrollIndicator={false}>
@@ -73,11 +71,10 @@ const Upload = () => {
 
                 {/* content */}
                 {
-                    !(blog && details) ? (
+                    (!(blog && details) || isLoading) ? (
                         <View className="mx-2">
                             {/* title */}
                             <Skeleton className="text-2xl mt-2 w-36 mx-auto" />
-
 
                             {/* Image */}
                             <Skeleton className="w-full mt-4 h-2/6" />
