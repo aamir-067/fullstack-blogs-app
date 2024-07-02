@@ -129,7 +129,6 @@ export const uploadBlog = async ({ title, time, content, image }) => {
 
 
 // TODO: fix this 
-// ! ERROR: fix this 
 export const updateBlog = async ({ title, time, content, blogId, image = undefined, prevImageUrl }) => {
     try {
         let coverUrl;
