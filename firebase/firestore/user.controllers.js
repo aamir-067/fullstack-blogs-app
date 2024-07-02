@@ -1,14 +1,17 @@
 import { collection, setDoc, getDoc, doc, query, where, getDocs } from "firebase/firestore";
-import { db } from "../firebase.config.js";
+import { app, db } from "../firebase.config.js";
 import { getBlog } from "./blog.controller.js";
 import { setUserDetails as setUsersDetails } from "../../features/userDetails.reducer";
 import { store } from "../../store/store";
 import { setBlogs } from "../../features/blogsDetails.reducer";
 import { getString } from "../../utils/asyncStorage.js";
+import { confirmPasswordReset, getAuth } from "firebase/auth";
 export const addUser = async (uid, { name, email, password, image }) => {
     try {
         const res = await setDoc(doc(db, "Users", uid), {
             name, email, password, image
+        }, {
+            merge: true
         });
         return { uid, name, email, password, image };
     } catch (e) {
@@ -97,5 +100,41 @@ export const getUserUploadedBlogs = async () => {
 
     } catch (error) {
         console.log("Error in getUserUploadedBlogs:", error);
+    }
+}
+
+
+export const editUserProfileDetails = async ({ userId, name, email, password, avatar, prevAvatarUrl }) => {
+    try {
+
+        let avatarUrl;
+        if (avatar) {
+            avatarUrl = await uploadFile(avatar);
+        } else {
+            avatarUrl = prevAvatarUrl;
+        }
+
+        if (!avatarUrl) {
+            throw new Error("Error Uploading Image");
+        }
+
+        const res = await addUser(userId, { name, email, password, image: avatarUrl });
+
+
+        // TODO: change the password in the auth
+        const auth = getAuth(app);
+
+        await confirmPasswordReset(auth, "");
+        if (!res) {
+            throw new Error("Error Updating User Details");
+        }
+
+
+        return true;
+
+
+    } catch (error) {
+        console.log("Error in editUserProfileDetails:", error);
+        return new Error("Error while updating user profile details");
     }
 }

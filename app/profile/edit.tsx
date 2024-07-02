@@ -5,6 +5,8 @@ import * as DocumentPicker from 'expo-document-picker';
 import { useSelector } from 'react-redux'
 import { State } from './index';
 import { CoverImage } from '../article/upload';
+import { editUserProfileDetails } from '../../firebase/firestore/user.controllers';
+import { router } from 'expo-router';
 interface userDetails {
     id: string,
     name: string,
@@ -55,6 +57,24 @@ const Profile = () => {
     const updateUserDetails = async () => {
         try {
             // check if the details are empty or not.
+            if (!(details?.name && (details.newPassword === details.confirmPassword))) {
+                Alert.alert("Error", "Some fields are missing or wrong filled");
+
+            }
+
+            const res = await editUserProfileDetails({
+                userId: details.id,
+                name: details.name,
+                email: details.email,
+                password: details.newPassword,
+                avatar: coverPic,
+                prevAvatarUrl: details.avatar
+            });
+
+            if (res) {
+                Alert.prompt("Successful", "Account details updated.");
+                // router.navigate("/profile");
+            }
         } catch (error) {
             Alert.alert("Error", "Something went wrong while updating Profile");
             console.log("Error ", error);
@@ -78,7 +98,6 @@ const Profile = () => {
                 {
                     (loading || !details) ? (
                         (
-
                             <View className="w-full flex flex-col gap-y-6 items-center">
 
                                 <View className="p-0 mb-24"></View>
@@ -118,7 +137,7 @@ const Profile = () => {
                                     <Input size="md" onChangeText={(e) => setText("confirmPassword", e)} marginY={2} placeholder="confirm new password" value={details?.confirmPassword} />
                                 </View>
 
-                                <Button className="w-5/12 mx-auto mt-3" style={{ backgroundColor: "#C3D8B3" }}>
+                                <Button onPress={updateUserDetails} className="w-5/12 mx-auto mt-3" style={{ backgroundColor: "#C3D8B3" }}>
                                     <Text className="font-bold text-base text-black">Confirm Edit</Text>
                                 </Button>
 

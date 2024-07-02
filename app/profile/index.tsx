@@ -9,6 +9,7 @@ import { getUserByEmail, getUserUploadedBlogs } from '../../firebase/firestore/u
 import { useSelector } from 'react-redux'
 import { BlogsDetails } from "../../features/blogsDetails.reducer"
 import BlogSkeleton from '../../components/ArticleCard/BlogSkeleton'
+import { auth } from '../../firebase/firebase.config'
 interface userDetails {
     id: string,
     name: string,
@@ -29,7 +30,9 @@ const Profile = () => {
 
     useEffect(() => {
         (async () => {
-            const userEmail = await getString("userDetails");
+            // const userEmail = await getString("userDetails");
+            const userEmail = auth?.currentUser?.email;
+            console.log(userEmail);
 
             if (userEmail && userDetails?.id.length == 0) {
                 setLoading(true);
@@ -40,7 +43,7 @@ const Profile = () => {
                 }
             }
             setLoading(false);
-            await getUserUploadedBlogs();
+            userEmail && await getUserUploadedBlogs();
         })()
     }, []);
 

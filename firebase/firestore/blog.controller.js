@@ -132,8 +132,6 @@ export const uploadBlog = async ({ title, time, content, image }) => {
 // ! ERROR: fix this 
 export const updateBlog = async ({ title, time, content, blogId, image = undefined, prevImageUrl }) => {
     try {
-
-
         let coverUrl;
         if (image) {
             coverUrl = await uploadFile(image);
