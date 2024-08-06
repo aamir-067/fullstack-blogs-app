@@ -1,11 +1,9 @@
-import { StyleSheet, Text, View, TouchableOpacity, ScrollView, Image, Alert } from 'react-native'
+import { Text, View, TouchableOpacity, ScrollView, Image, Alert } from 'react-native'
 import * as DocumentPicker from 'expo-document-picker';
 import React, { useEffect, useState } from 'react'
 import { Input, TextArea, Button, Skeleton } from "native-base";
 import { router, useLocalSearchParams } from "expo-router";
-import { useSelector } from 'react-redux';
 import { BlogText, CoverImage } from '../upload';
-import { State } from '../../profile';
 import { getBlog, updateBlog } from '../../../firebase/firestore/blog.controller';
 const Upload = () => {
 

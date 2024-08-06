@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, ScrollView, Image, TouchableOpacity, Alert } from 'react-native'
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Link, router } from "expo-router";
 import { Button, Input } from "native-base";
 import { createEmailAndPassUser, signInWithGoogle } from '../../../firebase/auth';

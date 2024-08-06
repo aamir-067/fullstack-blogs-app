@@ -1,9 +1,8 @@
 import { StyleSheet, Text, View, Image, ScrollView, Pressable } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { Link, router } from 'expo-router'
-import { Button, Center, VStack, Skeleton, HStack } from 'native-base'
+import { Button, VStack, Skeleton } from 'native-base'
 import ArticleCard from '../../components/ArticleCard/ArticleCard'
-import { getString, storeString } from "../../utils/asyncStorage"
 import { signOutUser } from '../../firebase/auth'
 import { getUserByEmail, getUserUploadedBlogs } from '../../firebase/firestore/user.controllers'
 import { useSelector } from 'react-redux'
@@ -11,6 +10,7 @@ import { BlogsDetails } from "../../features/blogsDetails.reducer"
 import BlogSkeleton from '../../components/ArticleCard/BlogSkeleton'
 import { auth } from '../../firebase/firebase.config'
 interface userDetails {
+    avatar: string
     id: string,
     name: string,
     image: string,
@@ -151,7 +151,7 @@ const Profile = () => {
                                     </View>
                                 </View> :
                                     // when its logged out
-                                    <View View className="mt-60">
+                                    <View className="mt-60">
                                         <Text className="text-center text-lg mb-5" style={{ fontFamily: "montserrat-bold" }}>Don't have an account ?</Text>
 
                                         <Button bgColor={"#C3D8B3"}>

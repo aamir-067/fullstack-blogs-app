@@ -2,7 +2,7 @@ import { SafeAreaView, View, StatusBar, LogBox } from 'react-native';
 import Footer from "../components/Footer/Footer";
 import { useFonts } from "expo-font";
 import * as SplashScreen from 'expo-splash-screen';
-import { useCallback, useEffect } from 'react';
+import { useEffect } from 'react';
 import { NativeBaseProvider } from "native-base";
 import { Slot } from 'expo-router';
 import { store } from '../store/store';

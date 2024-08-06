@@ -3,8 +3,6 @@ import { router, useLocalSearchParams } from 'expo-router';
 import React, { useEffect, useState } from "react";
 import { getBlog, getOwnerOfBlog } from "../../../firebase/firestore/blog.controller";
 import { Skeleton } from "native-base";
-import { Blog } from "../../../features/blogsDetails.reducer";
-import { DocumentSnapshot, DocumentData } from "firebase/firestore";
 import { useSelector } from "react-redux";
 import { State } from "../../profile";
 const ArticlePreview = () => {

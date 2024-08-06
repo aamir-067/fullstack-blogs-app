@@ -16,7 +16,8 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.aamir067.blogs"
     },
     "android": {
       "adaptiveIcon": {
@@ -40,6 +41,12 @@
       "eas": {
         "projectId": "89cabb97-81ae-44c2-8dcc-50e4422b7e40"
       }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/89cabb97-81ae-44c2-8dcc-50e4422b7e40"
     }
   }
 }

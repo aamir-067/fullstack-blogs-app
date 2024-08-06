@@ -6,7 +6,6 @@ import { useSelector } from 'react-redux'
 import { State } from './index';
 import { CoverImage } from '../article/upload';
 import { editUserProfileDetails } from '../../firebase/firestore/user.controllers';
-import { router } from 'expo-router';
 interface userDetails {
     id: string,
     name: string,

@@ -1,9 +1,7 @@
 import { StyleSheet, Text, View, TouchableOpacity, ScrollView, Image, Alert } from 'react-native'
 import * as DocumentPicker from 'expo-document-picker';
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Input, TextArea, Button } from "native-base";
-import { router } from "expo-router";
-import im from "../../../assets/image_icon.png";
 import { useSelector } from 'react-redux';
 import { State } from '../../profile';
 import { uploadBlog } from '../../../firebase/firestore/blog.controller';

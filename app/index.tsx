@@ -1,5 +1,5 @@
 import { ScrollView, StyleSheet, Text, View, Image, Pressable, SafeAreaView } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { router } from 'expo-router';
 import { Skeleton, VStack } from 'native-base';
 import { getAllBlogs, getMainBlog } from '../firebase/firestore/blog.controller';
